@@ -1,24 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date
+from django.contrib.auth.models import AbstractUser
 
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    def __str__(self):
+        return self.email
+
+
+
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    weight = models.FloatField(null=True, blank=True)
-    height = models.FloatField(null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
-    fitness_goal = models.CharField(max_length=100, null=True, blank=True)
-    
-    def __str__(self):
-        return f"{self.user.username}'s profile"
-
-class Workout(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    exercise = models.CharField(max_length=100, null=True)
-    date = models.DateField(default=date.today)
-    duration = models.IntegerField(default=0)
-    sets = models.IntegerField(default=0)
-    reps = models.IntegerField(default=0)
+    age = models.PositiveIntegerField()
+    height = models.FloatField(help_text="Height in cm")
+    weight = models.FloatField(help_text="Weight in kg")
+    fitness_goal = models.TextField()
 
     def __str__(self):
-        return f'{self.exercise} on {self.date}' or 'No Exercise'
+        return f"{self.user.firstname} {self.user.lastname} - Profile"
