@@ -1,0 +1,7 @@
+<h1>{{ movie.title }}</h1>
+<p>{{ movie.description }}</p>
+<ul>
+    {% for showtime in showtimes %}
+        <li>{{ showtime.showtime }} - Available Seats: {{ showtime.available_seats }}</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #111; /* Dark container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff; /* White text for headings */
+            font-size: 28px;
+            margin-bottom: 15px; /* Reduced margin */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px; /* Reduced margin */
+            font-weight: bold;
+            color: #ccc; /* Light gray color for labels */
+        }
+
+        input {
+            width: 96%;
+            padding: 8px; /* Slightly reduced padding */
+            margin-bottom: 16px; /* Reduced margin */
+            border: 1px solid #444; /* Darker border */
+            border-radius: 5px;
+            font-size: 16px; /* Smaller font size */
+            background-color: #333; /* Dark background for input fields */
+            color: #fff; /* White text inside inputs */
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px; /* Slightly reduced padding */
+            background-color: #007BFF; /* Blueish color */
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 12px; /* Reduced margin */
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-link a {
+            color: #007BFF; /* Blueish color for the link */
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}error-message{% else %}success-message{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Email input field with custom label -->
+            <label for="email">E-Mail</label>
+            <input type="email" name="email" id="email" required placeholder="Geben Sie Ihre E-Mail ein" value="{{ request.POST.email }}">
+            
+            <!-- Password input field with custom label -->
+            <label for="password">Passwort</label>
+            <input type="password" name="password" id="password" required placeholder="Geben Sie Ihr Passwort ein">
+            
+            <button type="submit" class="btn-submit">Login</button>
+        </form>
+
+        <div class="login-link">
+            <p>Haben Sie noch kein Konto? <a href="{% url 'register' %}">Jetzt registrieren</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

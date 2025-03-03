@@ -6,6 +6,10 @@ zum Starten der venv:
 - cd Fitnessapp/fitnessapp
 - .\venv\Structure\Activate
 
+To migrate:
+- python manage.py makemigrations
+python manage.py migrate
+
 anschließend Server starten:
 - python manage.py runserver
 
