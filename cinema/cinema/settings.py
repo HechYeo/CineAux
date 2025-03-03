@@ -135,4 +135,4 @@ AUTH_USER_MODEL = 'users.User'
 
 # Media files settings
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'users', 'movie_poster')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'users/movie_poster')

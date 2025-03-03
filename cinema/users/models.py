@@ -30,6 +30,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     duration = models.IntegerField()  # Duration in minutes
     poster = models.ImageField(upload_to='movie_poster/', blank=True, null=True)
+    age_rating = models.CharField(max_length=10)  # For FSK rating
 
     def __str__(self):
         return self.title

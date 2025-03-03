@@ -53,4 +53,4 @@ class ProfileForm(forms.ModelForm):
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ['title', 'description', 'release_date', 'duration', 'poster']
+        fields = ['title', 'description', 'release_date', 'duration', 'poster', 'age_rating']
