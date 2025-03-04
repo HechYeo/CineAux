@@ -57,70 +57,74 @@
         .movie-list {
             margin-top: 10px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Keeps images aligned */
             gap: 20px;
             padding: 0;
             list-style: none;
+            justify-content: center;
         }
 
         .movie-item {
-            background-color: #222; /* Dark background for movie items */
-            padding: 15px;
+            background-color: #222;
+            width: 180px; /* Fixed width */
+            height: 270px; /* Fixed height */
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             position: relative;
             overflow: hidden;
-            transform: scale(0.5); /* Shrink the entire movie item by 50% */
         }
 
-        /* Make the movie item clickable */
         .movie-item a {
             display: block;
-            position: relative;
             text-decoration: none;
         }
 
         .movie-item img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 100%; /* Ensure all images have the same height */
+            object-fit: cover; /* Crops excess parts while maintaining aspect ratio */
             border-radius: 5px;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Apply the fade effect on hover */
         .movie-item:hover img {
-            transform: scale(1.05); /* Slight zoom effect */
-            opacity: 0.3; /* Fade effect */
+            transform: scale(1.05);
+            opacity: 0.3;
         }
 
+        /* Ensure movie info box overlays correctly */
         .movie-info {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             border-radius: 5px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        /* Make the info visible when hovering over the item */
         .movie-item:hover .movie-info {
             opacity: 1;
         }
 
         .movie-title {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
-            color: #fff; /* White text for movie titles */
+            color: #fff;
+            margin-bottom: 5px;
         }
 
         .movie-description {
-            font-size: 22px;
-            color: #bbb; /* Lighter text for descriptions */
-            margin-top: 5px;
+            font-size: 14px;
+            color: #bbb;
         }
 
         /* Profile button styling */

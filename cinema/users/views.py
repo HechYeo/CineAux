@@ -6,6 +6,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Movie, Showtime
 from .forms import MovieForm
+from django.contrib.auth.decorators import login_required
+from .forms import EditProfileForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 
 
 def register(request):
@@ -13,7 +17,6 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()  # This will save the user with a hashed password
-            messages.success(request, "Registration successful. You can now log in.")
             return redirect('login')
         else:
             messages.error(request, "Invalid form data.")
@@ -59,9 +62,11 @@ def movie_showtimes(request, movie_id):
     showtimes = Showtime.objects.filter(movie=movie)
     return render(request, 'users/movie_showtimes.html', {'movie': movie, 'showtimes': showtimes})
 
+@login_required
 def profile(request):
-    # Add any necessary logic for the profile view
-    return render(request, 'users/profile.html')
+    # Get the currently logged-in user
+    user = request.user
+    return render(request, 'users/profile.html', {'user': user})
 
 def add_movie(request):
     if request.method == 'POST':
@@ -73,3 +78,20 @@ def add_movie(request):
         form = MovieForm()
     
     return render(request, 'users/add_movie.html', {'form': form})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirect back to the profile page
+    else:
+        form = EditProfileForm(instance=request.user)
+
+    return render(request, 'users/edit_profile.html', {'form': form})
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'users/change_password.html'  # Path to your template
+    success_url = reverse_lazy('profile')  # Redirect to the profile page after successful password change
+

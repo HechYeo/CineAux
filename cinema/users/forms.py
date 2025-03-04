@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from .models import User, Profile, Movie
+from django.core.validators import RegexValidator
 
 User = get_user_model()
 
@@ -11,8 +12,8 @@ class LoginForm(forms.Form):
 
 
 class UserRegistrationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
+    first_name = forms.CharField(max_length=30, validators=[RegexValidator(r'^[a-zA-Z\s]*$', 'Only alphabetic characters and spaces are allowed.')])
+    last_name = forms.CharField(max_length=30, validators=[RegexValidator(r'^[a-zA-Z\s]*$', 'Only alphabetic characters and spaces are allowed.')])
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
@@ -54,3 +55,9 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         fields = ['title', 'description', 'release_date', 'duration', 'poster', 'age_rating']
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from .views import CustomPasswordChangeView
 
 urlpatterns = [
     path("register/", views.register, name="register"),
@@ -12,6 +12,8 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path('movies/', views.movie_list, name='movie_list'),
     path('movies/<int:movie_id>/', views.movie_showtimes, name='movie_showtimes'),
-    path('profile/', views.profile, name='profile'),  # Add this line
+    path('profile/', views.profile, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/change-password/', CustomPasswordChangeView.as_view(), name='change_password'),
     path('add_movie/', views.add_movie, name='add_movie'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

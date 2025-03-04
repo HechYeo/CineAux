@@ -4,10 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            background-color: #111; /* Dark container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff; /* White text for headings */
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .profile-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #ccc; /* Light gray color for text */
+        }
+
+        .btn-edit {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF; /* Blueish color */
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-link a {
+            color: #007BFF; /* Blueish color for the link */
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome to Your Profile</h2>
-    <p>Here you can manage your personal information and settings.</p>
-    <!-- Add additional profile details here -->
+
+    <div class="profile-container">
+        <h2>Your Profile</h2>
+
+        <!-- Display user information -->
+        <div class="profile-info">
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+
+        <a href="{% url 'edit_profile' %}">
+            <button class="btn-edit">Edit Profile</button>
+        </a>
+
+        <div class="login-link">
+            <p>Want to change your password? <a href="{% url 'change_password' %}">Change Password</a></p>
+        </div>
+    </div>
+
 </body>
 </html>
