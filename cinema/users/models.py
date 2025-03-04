@@ -46,13 +46,6 @@ class Showtime(models.Model):
     class Meta:
         ordering = ['time']
 
-class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)
-    seats_booked = models.IntegerField()
-
-    def __str__(self):
-        return f'{self.user.username} - {self.showtime.movie.title}'
 
 class Seat(models.Model):
     showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)

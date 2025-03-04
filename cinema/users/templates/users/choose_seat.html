@@ -24,16 +24,22 @@
             flex-shrink: 0; /* Prevent shrinking */
         }
         .seats-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 10px;
-            justify-items: center;
             flex-grow: 1; /* Allow seats container to expand and fill the space */
             overflow: hidden; /* Prevent any overflow */
         }
+        .row {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr); /* Set fixed number of columns */
+            justify-items: center;
+            gap: 0; /* Remove any space between grid items */
+        }
+
         .seat {
-            width: 40px;
-            height: 40px;
+            width: 80%; /* Ensures each seat fills its grid cell */
+            height: 40px; /* Fixed height for seats */
             background-color: #007bff;
             color: white;
             display: flex;
@@ -42,12 +48,28 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .seat.selected {
             background-color: #28a745;
         }
         .seat.booked {
             background-color: #dc3545;
             cursor: not-allowed;
+        }
+        .screen-line {
+            grid-column: 1 / -1;
+            height: 3px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, transparent 10%, #fff 50%, transparent 90%);
+            border-radius: 50%; /* Optional, helps smooth the curve */
+        }
+
+        .screen-text {
+            text-align: center;
+            font-size: 20px;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
         
         /* Cancel Button Styling */
@@ -67,6 +89,21 @@
         .btn-cancel:hover {
             background-color: #c82333; /* Darker red on hover */
         }
+         /* Arrow styling */
+         .arrow-seat {
+            grid-column: span 3; /* Ensure the arrow spans 3 columns */
+            text-align: center;
+        }
+
+        .arrow-left {
+            font-size: 60px; /* Adjust the size of the arrow */
+            color: white; /* Make the arrow color white */
+        }
+        .arrow-text {
+            font-size: 16px; /* Adjust the font size for "Eingang" */
+            color: white; /* Make the text color white */
+            margin-top: 5px; /* Add some space between the arrow and the text */
+        }
     </style>
 </head>
 <body>
@@ -74,17 +111,287 @@
     <div class="movie-title">
         <h1>Choose Your Seat for:</h1>
         <h2>{{ showtime.movie.title }}</h2>
-        <h3> at {{ showtime.time|date:"H:i" }}</h3>
+        <h3> at {{ showtime.time|date:"G:i" }}</h3>
     </div>
 
     <div class="seats-container">
-        <!-- Sample Seat Layout (You can replace this with dynamic seat data from the database) -->
-        <div class="seat">A1</div>
-        <div class="seat">A2</div>
-        <div class="seat booked">A3</div>
-        <div class="seat">A4</div>
-        <div class="seat">A5</div>
-        <!-- Add more seats here -->
+        <!-- Add the screen line above the M row -->
+        <div class="screen-line"></div>
+        
+        <!-- Add text under the screen line -->
+        <div class="screen-text">Leinwand</div>
+        
+        <!-- Row M - 14 seats -->
+        <div class="row" style="grid-template-columns: repeat(15, 1fr) 1fr">
+            <div class="seat">M1</div>
+            <div class="seat">M2</div>
+            <div class="seat">M3</div>
+            <div class="seat">M4</div>
+            <div class="seat">M5</div>
+            <div class="seat">M6</div>
+            <div class="seat">M7</div>
+            <div class="seat">M8</div>
+            <div class="seat">M9</div>
+            <div class="seat">M10</div>
+            <div class="seat">M11</div>
+            <div class="seat">M12</div>
+            <div class="seat">M13</div>
+            <div class="seat">M14</div>
+        </div>
+        
+        <!-- Row L - 18 seats -->
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">L1</div>
+            <div class="seat">L2</div>
+            <div class="seat">L3</div>
+            <div class="seat">L4</div>
+            <div class="seat">L5</div>
+            <div class="seat">L6</div>
+            <div class="seat">L7</div>
+            <div class="seat">L8</div>
+            <div class="seat">L9</div>
+            <div class="seat">L10</div>
+            <div class="seat">L11</div>
+            <div class="seat">L12</div>
+            <div class="seat">L13</div>
+            <div class="seat">L14</div>
+            <div class="seat">L15</div>
+            <div class="seat">L16</div>
+            <div class="seat">L17</div>
+            <div class="seat">L18</div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(17, 1fr) 3fr;">
+            <div class="seat">K1</div>
+            <div class="seat">K2</div>
+            <div class="seat">K3</div>
+            <div class="seat">K4</div>
+            <div class="seat">K5</div>
+            <div class="seat">K6</div>
+            <div class="seat">K7</div>
+            <div class="seat">K8</div>
+            <div class="seat">K9</div>
+            <div class="seat">K10</div>
+            <div class="seat">K11</div>
+            <div class="seat">K12</div>
+            <div class="seat">K13</div>
+            <div class="seat">K14</div>
+            <div class="seat">K15</div>
+            <div class="seat" style="display: none;"></div>
+            <div class="arrow-seat">
+                <!-- Large white arrow replacing 3 invisible seats -->
+                <span class="arrow-left">&#8592;</span>
+                <div class="arrow-text">Eingang</div>
+            </div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">J1</div>
+            <div class="seat">J2</div>
+            <div class="seat">J3</div>
+            <div class="seat">J4</div>
+            <div class="seat">J5</div>
+            <div class="seat">J6</div>
+            <div class="seat">J7</div>
+            <div class="seat">J8</div>
+            <div class="seat">J9</div>
+            <div class="seat">J10</div>
+            <div class="seat">J11</div>
+            <div class="seat">J12</div>
+            <div class="seat">J13</div>
+            <div class="seat">J14</div>
+            <div class="seat">J15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="display: none;"></div>
+            <div class="seat" style="display: none;"></div>
+            <div class="seat" style="display: none;"></div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">I1</div>
+            <div class="seat">I2</div>
+            <div class="seat">I3</div>
+            <div class="seat">I4</div>
+            <div class="seat">I5</div>
+            <div class="seat">I6</div>
+            <div class="seat">I7</div>
+            <div class="seat">I8</div>
+            <div class="seat">I9</div>
+            <div class="seat">I10</div>
+            <div class="seat">I11</div>
+            <div class="seat">I12</div>
+            <div class="seat">I13</div>
+            <div class="seat">I14</div>
+            <div class="seat">I15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+        </div>
+        <!-- Row G-K - 17 seats with empty space after 15th seat -->
+        <!-- Each of these rows will have 15 seats followed by 3 empty divs to create the gap -->
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">H1</div>
+            <div class="seat">H2</div>
+            <div class="seat">H3</div>
+            <div class="seat">H4</div>
+            <div class="seat">H5</div>
+            <div class="seat">H6</div>
+            <div class="seat">H7</div>
+            <div class="seat">H8</div>
+            <div class="seat">H9</div>
+            <div class="seat">H10</div>
+            <div class="seat">H11</div>
+            <div class="seat">H12</div>
+            <div class="seat">H13</div>
+            <div class="seat">H14</div>
+            <div class="seat">H15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">G1</div>
+            <div class="seat">G2</div>
+            <div class="seat">G3</div>
+            <div class="seat">G4</div>
+            <div class="seat">G5</div>
+            <div class="seat">G6</div>
+            <div class="seat">G7</div>
+            <div class="seat">G8</div>
+            <div class="seat">G9</div>
+            <div class="seat">G10</div>
+            <div class="seat">G11</div>
+            <div class="seat">G12</div>
+            <div class="seat">G13</div>
+            <div class="seat">G14</div>
+            <div class="seat">G15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">G16</div>
+            <div class="seat">G17</div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">F1</div>
+            <div class="seat">F2</div>
+            <div class="seat">F3</div>
+            <div class="seat">F4</div>
+            <div class="seat">F5</div>
+            <div class="seat">F6</div>
+            <div class="seat">F7</div>
+            <div class="seat">F8</div>
+            <div class="seat">F9</div>
+            <div class="seat">F10</div>
+            <div class="seat">F11</div>
+            <div class="seat">F12</div>
+            <div class="seat">F13</div>
+            <div class="seat">F14</div>
+            <div class="seat">F15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">F16</div>
+            <div class="seat">F17</div>
+        </div>
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">E1</div>
+            <div class="seat">E2</div>
+            <div class="seat">E3</div>
+            <div class="seat">E4</div>
+            <div class="seat">E5</div>
+            <div class="seat">E6</div>
+            <div class="seat">E7</div>
+            <div class="seat">E8</div>
+            <div class="seat">E9</div>
+            <div class="seat">E10</div>
+            <div class="seat">E11</div>
+            <div class="seat">E12</div>
+            <div class="seat">E13</div>
+            <div class="seat">E14</div>
+            <div class="seat">E15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">E16</div>
+            <div class="seat">E17</div>
+        </div>
+        <!-- Rows D to G - 17 seats with empty spaces after 15th seat -->
+        <div class="row" style="grid-template-columns: repeat(20, 1fr)">
+            <div class="seat">D1</div>
+            <div class="seat">D2</div>
+            <div class="seat">D3</div>
+            <div class="seat">D4</div>
+            <div class="seat">D5</div>
+            <div class="seat">D6</div>
+            <div class="seat">D7</div>
+            <div class="seat">D8</div>
+            <div class="seat">D9</div>
+            <div class="seat">D10</div>
+            <div class="seat">D11</div>
+            <div class="seat">D12</div>
+            <div class="seat">D13</div>
+            <div class="seat">D14</div>
+            <div class="seat">D15</div>
+            <!-- Empty spaces (gap) -->
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">D16</div>
+            <div class="seat">D17</div>
+        </div>
+
+            <!-- Row C - 11 seats -->
+        <div class="row" style="grid-template-columns: repeat(12, 1fr)">
+            <div class="seat">C1</div>
+            <div class="seat">C2</div>
+            <div class="seat">C3</div>
+            <div class="seat">C4</div>
+            <div class="seat">C5</div>
+            <div class="seat">C6</div>
+            <div class="seat">C7</div>
+            <div class="seat">C8</div>
+            <div class="seat">C9</div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">C10</div>
+            <div class="seat">C11</div>
+        </div>
+
+        <!-- Row B - 8 seats -->
+        <div class="row" style="grid-template-columns: repeat(12, 1fr)">
+            <div class="seat">B1</div>
+            <div class="seat">B2</div>
+            <div class="seat">B3</div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat">B4</div>
+            <div class="seat">B5</div>
+            <div class="seat">B6</div>
+            <div class="seat">B7</div>
+            <div class="seat">B8</div>
+        </div>
+
+        <!-- Row A - 2 seats -->
+        <div class="row" style="grid-template-columns: repeat(12, 1fr)">
+            <div class="seat">A1</div>
+            <div class="seat">A2</div>
+            <div class="seat">A3</div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+            <div class="seat" style="visibility: hidden;"></div>
+        </div>
+        
     </div>
     
     <!-- Cancel Button -->
