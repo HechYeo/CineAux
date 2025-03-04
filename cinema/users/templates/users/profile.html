@@ -70,9 +70,31 @@
         .login-link a:hover {
             text-decoration: underline;
         }
+
+        /* Back Arrow Button Styling for Profile */
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
+
+    <!-- Back Arrow Button -->
+    <a href="{% url 'dashboard' %}" class="btn-back">&#8592;</a>
 
     <div class="profile-container">
         <h2>Your Profile</h2>

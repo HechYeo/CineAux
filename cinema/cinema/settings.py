@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.DisableBackButtonMiddleware',
 ]
 
 ROOT_URLCONF = 'cinema.urls'
@@ -136,3 +137,8 @@ AUTH_USER_MODEL = 'users.User'
 # Media files settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'users/movie_poster')
+
+
+# Session expiration settings
+SESSION_COOKIE_AGE = 1800  # Session timeout in seconds (30 minutes)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire the session when the browser is closed

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Seat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black; /* Set the background to black */
+            color: white; /* Set the text color to white */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            display: flex; /* Use flexbox to ensure full height layout */
+            flex-direction: column; /* Stack content vertically */
+            height: 100vh; /* Ensure the body takes full height of the viewport */
+            justify-content: space-between; /* Place items at top and bottom */
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .movie-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .seats-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            justify-items: center;
+            flex-grow: 1; /* Allow seats container to expand and fill the space */
+            overflow: hidden; /* Prevent any overflow */
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .seat.selected {
+            background-color: #28a745;
+        }
+        .seat.booked {
+            background-color: #dc3545;
+            cursor: not-allowed;
+        }
+        
+        /* Cancel Button Styling */
+        .btn-cancel {
+            background-color: #dc3545; /* Red background for cancel button */
+            color: white; /* White text */
+            padding: 10px 20px; /* Padding for the button */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+            text-decoration: none; /* Remove underline from the link */
+            transition: background-color 0.3s; /* Smooth transition on hover */
+            align-self: flex-end; /* Position the button at the bottom right */
+            margin-bottom: 20px; /* Add space from the bottom */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="movie-title">
+        <h1>Choose Your Seat for:</h1>
+        <h2>{{ showtime.movie.title }}</h2>
+        <h3> at {{ showtime.time|date:"H:i" }}</h3>
+    </div>
+
+    <div class="seats-container">
+        <!-- Sample Seat Layout (You can replace this with dynamic seat data from the database) -->
+        <div class="seat">A1</div>
+        <div class="seat">A2</div>
+        <div class="seat booked">A3</div>
+        <div class="seat">A4</div>
+        <div class="seat">A5</div>
+        <!-- Add more seats here -->
+    </div>
+    
+    <!-- Cancel Button -->
+    <a href="{% url 'movie_showtimes' movie.id %}" class="btn-cancel">Cancel</a>
+
+</body>
+</html>

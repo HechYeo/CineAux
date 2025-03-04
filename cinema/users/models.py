@@ -37,13 +37,14 @@ class Movie(models.Model):
         return self.title
 
 class Showtime(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    showtime = models.DateTimeField()
-    theater = models.CharField(max_length=255)  # Could be a name or location
-    available_seats = models.IntegerField()
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='showtimes')
+    time = models.TimeField(null=True)  # Store time as a time object
 
     def __str__(self):
-        return f'{self.movie.title} - {self.showtime}'
+        return f"{self.movie.title} - {self.time}"
+
+    class Meta:
+        ordering = ['time']
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -52,3 +53,8 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.showtime.movie.title}'
+
+class Seat(models.Model):
+    showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)
+    number = models.CharField(max_length=5)
+    is_taken = models.BooleanField(default=False)

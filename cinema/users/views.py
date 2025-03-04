@@ -10,7 +10,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-
+from .models import Movie, Showtime, Seat
+from django.http import HttpResponse
 
 def register(request):
     if request.method == 'POST':
@@ -41,7 +42,7 @@ def login_view(request):
             print(f"Login failed for {email}")  # Debug print
     return render(request, 'users/login.html')
 
-
+@login_required
 def dashboard(request):
     movies = Movie.objects.all()  # Get all movies
     return render(request, 'users/dashboard.html', {'movies': movies})
@@ -49,8 +50,12 @@ def dashboard(request):
 
 
 def logout_view(request):
-    logout(request)  # This will log the user out
-    return redirect('login')  # Redirect to the login page after logout
+    logout(request)
+    response = redirect('login')  # Redirect to login page
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 
 def movie_list(request):
@@ -95,3 +100,10 @@ class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'users/change_password.html'  # Path to your template
     success_url = reverse_lazy('profile')  # Redirect to the profile page after successful password change
 
+def choose_seat(request, movie_id, showtime_id):
+    showtime = get_object_or_404(Showtime, id=showtime_id)
+    movie = showtime.movie  # Access the movie related to this showtime
+    return render(request, 'users/choose_seat.html', {
+        'showtime': showtime,
+        'movie': movie  # Pass the movie object to the template
+    })

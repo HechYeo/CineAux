@@ -15,5 +15,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/change-password/', CustomPasswordChangeView.as_view(), name='change_password'),
-    path('add_movie/', views.add_movie, name='add_movie'),
+    path('movie/<int:movie_id>/showtime/<int:showtime_id>/choose_seat/', views.choose_seat, name='choose_seat'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

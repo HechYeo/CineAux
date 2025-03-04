@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000; /* Set the background to black */
-            color: #fff; /* Set the text color to white */
+            background-color: #000;
+            color: #fff;
             margin: 0;
             padding: 0;
         }
 
         .dashboard-container {
-            background-color: #111; /* Dark background for the container */
+            background-color: #111;
             padding: 40px;
             margin: 40px auto;
             width: 100%;
@@ -26,7 +26,7 @@
 
         h2 {
             text-align: center;
-            color: #fff; /* White text for headings */
+            color: #fff;
             font-size: 28px;
             margin-bottom: 20px;
         }
@@ -34,7 +34,7 @@
         .dashboard-content {
             margin-top: 30px;
             font-size: 18px;
-            color: #ccc; /* Lighter text for general content */
+            color: #ccc;
         }
 
         .btn-logout {
@@ -53,11 +53,10 @@
             background-color: #e53935;
         }
 
-        /* Movie list styling */
         .movie-list {
             margin-top: 10px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Keeps images aligned */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             padding: 0;
             list-style: none;
@@ -66,8 +65,8 @@
 
         .movie-item {
             background-color: #222;
-            width: 180px; /* Fixed width */
-            height: 270px; /* Fixed height */
+            width: 180px;
+            height: 270px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -82,8 +81,8 @@
 
         .movie-item img {
             width: 100%;
-            height: 100%; /* Ensure all images have the same height */
-            object-fit: cover; /* Crops excess parts while maintaining aspect ratio */
+            height: 100%;
+            object-fit: cover;
             border-radius: 5px;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
@@ -93,7 +92,6 @@
             opacity: 0.3;
         }
 
-        /* Ensure movie info box overlays correctly */
         .movie-info {
             position: absolute;
             bottom: 0;
@@ -127,11 +125,14 @@
             color: #bbb;
         }
 
-        /* Profile button styling */
-        .profile-button {
+        .profile-container {
             position: absolute;
             top: 20px;
             right: 20px;
+            text-align: right;
+        }
+
+        .profile-button {
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
@@ -139,28 +140,57 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            display: inline-block;
         }
 
-        .profile-button:hover {
-            background-color: #0056b3;
+        .profile-menu {
+            display: none;
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            position: absolute;
+            top: 50px;
+            right: 0;
         }
 
+        .profile-menu a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .profile-menu a:hover {
+            background-color: #333;
+        }
+
+        .profile-container:focus-within .profile-menu,
+        .profile-button:focus + .profile-menu {
+            display: block;
+        }
     </style>
 </head>
 <body>
-
     <div class="dashboard-container">
-        <!-- Profile Button -->
-        <a href="{% url 'profile' %}" class="profile-button">Profile</a>
+        <div class="profile-container" tabindex="0">
+            <button class="profile-button">Profile</button>
+            <div class="profile-menu">
+                <a href="{% url 'profile' %}">See Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+                <a href="#">Booked Tickets</a>
+            </div>
+        </div>
 
         <h2>CineFlex</h2>
         
         <div class="dashboard-content">
             <p>The Cinema you are looking for!</p>
-            <!-- Add any content or dynamic information here -->
         </div>
 
-        <!-- Movie List Section -->
         <div class="movie-list-container">
             <h3>Movies for this month:</h3>
             <ul class="movie-list">
@@ -181,12 +211,6 @@
                 {% endfor %}
             </ul>
         </div>
-
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-logout">Logout</button>
-        </form>
     </div>
-
 </body>
 </html>

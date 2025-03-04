@@ -3,8 +3,8 @@ Fitness App für WPF Python
 
 
 zum Starten der venv:
-- cd Fitnessapp/fitnessapp
-- .\venv\Structure\Activate
+- cd Cinema/cinema
+- .\venv\Scripts\Activate
 
 To migrate:
 - python manage.py makemigrations
