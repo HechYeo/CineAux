@@ -14,44 +14,50 @@ from .models import Movie, Showtime, Seat
 from django.http import HttpResponse
 
 def register(request):
+    # If the user is already logged in, don't show the register page
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()  # This will save the user with a hashed password
-            return redirect('login')
+            return redirect('login')  # Redirect to login after successful registration
         else:
             messages.error(request, "Invalid form data.")
     else:
         form = UserRegistrationForm()
+    
     return render(request, 'users/register.html', {'form': form})
 
 def login_view(request):
+    # If the user is already logged in, don't show the login page
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Redirect to dashboard if already logged in
+
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        
-        # Try to authenticate the user using the email and password
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
-        
         if user is not None:
-            login(request, user)
-            print(f"User {user.email} logged in successfully")  # Debug print
-            return redirect('dashboard')  # Ensure 'dashboard' is correct
+            login(request, user)  # Log in the user
+            return redirect('dashboard')  # Redirect after successful login
         else:
-            messages.error(request, 'Invalid email or password')
-            print(f"Login failed for {email}")  # Debug print
+            messages.error(request, 'Invalid credentials')
     return render(request, 'users/login.html')
 
-@login_required
+
+
 def dashboard(request):
     movies = Movie.objects.all()  # Get all movies
     return render(request, 'users/dashboard.html', {'movies': movies})
 
 
-
+@login_required
 def logout_view(request):
-    logout(request)
+    logout(request)  # Log out the user
     response = redirect('login')  # Redirect to login page
+    # Apply no-cache headers after logout to avoid back-button issue
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'

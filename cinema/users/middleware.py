@@ -3,15 +3,15 @@ from django.shortcuts import redirect
 
 class DisableBackButtonMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
-        # Prevent caching for all users
+        # Apply cache-control headers to prevent caching of sensitive pages
         response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response['Pragma'] = 'no-cache'
         response['Expires'] = '0'
 
-        # Redirect to login page if the user is not authenticated and tries to access protected pages
+        # Redirect users to the login page if they try to access any page while logged out
+        # This check ensures that after logging out, users cannot access protected pages
         if not request.user.is_authenticated:
-            # You can customize the redirect URL based on your needs
-            if request.path != '/login/':  # Prevent redirect loop to login page
+            if request.path not in ['/login/', '/register/']:  # Don't redirect on login or register pages
                 return redirect('login')
-        
+
         return response
