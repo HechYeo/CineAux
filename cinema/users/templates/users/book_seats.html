@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Your Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .confirmation-container {
+            background-color: #111; /* Dark container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28a745; /* Green text for title */
+            font-size: 28px;
+            margin-bottom: 15px; /* Reduced margin */
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            background-color: #333;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            padding: 10px; /* Slightly reduced padding */
+            background-color: #007BFF; /* Blueish color */
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-confirm:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .btn-cancel {
+            width: 100%;
+            padding: 10px; /* Slightly reduced padding */
+            background-color: #FF4C4C; /* Red color */
+            margin-top: 14px;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e03e3e; /* Darker red on hover */
+        }
+
+        .btn-back {
+            margin-top: 10px;
+            display: inline-block;
+            text-align: center;
+            color: #007BFF; /* Blueish color for the link */
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confirmation-container">
+        <h1>Review Your Booking for:</h1>
+        <h2>{{ movie.title }}</h2>
+        <p>Showtime: {{ showtime.time|date:"H:i" }}</p>
+        <p>Selected Seats:</p>
+        <ul>
+            {% for seat in selected_seat_numbers %}
+                <li>{{ seat }}</li>
+            {% endfor %}
+        </ul>
+
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Pass along the booking data -->
+            <input type="hidden" name="movie" value="{{ movie.id }}">
+            <input type="hidden" name="showtime" value="{{ showtime.id }}">
+            <input type="hidden" name="seats" value="{{ seats_param }}">
+            <button type="submit" class="btn-confirm">Confirm Booking</button>
+        </form>
+
+        <form action="{% url 'choose_seat' movie.id showtime.id %}" method="get">
+            <button type="submit" class="btn-cancel">Cancel</button>
+        </form>
+    </div>
+
+</body>
+</html>
