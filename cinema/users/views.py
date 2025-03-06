@@ -13,6 +13,7 @@ from django.urls import reverse_lazy
 from .models import Movie, Showtime, Seat, Booking
 from django.http import HttpResponse
 from django.http import Http404
+from django.db import transaction
 
 def register(request):
     # If the user is already logged in, don't show the register page
@@ -134,6 +135,7 @@ def book_seats(request):
     
     if request.method == 'POST':
         booked_seats = []
+        already_taken = []
         if seats.exists():
             for seat in seats:
                 if not seat.is_taken:
@@ -141,7 +143,11 @@ def book_seats(request):
                     seat.save()
                     booked_seats.append(seat)
                 else:
-                    return HttpResponse("One or more selected seats are already booked.")
+                    already_taken.append(seat.number)
+            if already_taken:
+                # Add error message instead of returning HttpResponse
+                messages.error(request, "One or more selected seats are already booked: " + ", ".join(already_taken))
+                return redirect('book_seats')
         else:
             booked_seats = selected_seat_numbers
         
@@ -150,24 +156,19 @@ def book_seats(request):
             user=request.user, 
             movie=movie, 
             showtime=showtime, 
-            seats_numbers=','.join(selected_seat_numbers)  # Store seat numbers
+            seats_numbers=','.join(selected_seat_numbers)
         )
         
-        # Store relevant session data
         request.session['movie'] = movie.id
         request.session['showtime'] = showtime.id
-        request.session['booked_seats'] = booked_seats  # Store seat objects or seat numbers in session
-        
-        # Mark the booking as complete in the session to avoid issues on next request
+        request.session['booked_seats'] = [seat.number for seat in booked_seats]
         request.session['booking_complete'] = True
         
         print(f"Booking completed: {booking}")
-        print(f"Booked seats: {booked_seats}")
-
-        # Redirect to confirmation page
-        return redirect('booking_confirmation')  # Use redirect to avoid re-submission
+        print(f"Booked seats: {[seat.number for seat in booked_seats]}")
+        
+        return redirect('booking_confirmation')
     
-    # GET request handling
     return render(request, 'users/book_seats.html', {
         'movie': movie,
         'showtime': showtime,
@@ -175,7 +176,6 @@ def book_seats(request):
         'seats_param': seats_param,
         'selected_seat_numbers': selected_seat_numbers,
     })
-
 
 
 def booking_confirmation(request):
@@ -213,7 +213,6 @@ def booked_seats(request):
         'bookings': bookings
     })
 
-
 @login_required
 def cancel_booking(request, booking_id, seat_number):
     try:
@@ -222,12 +221,20 @@ def cancel_booking(request, booking_id, seat_number):
         
         # Split seat numbers from the text field
         seats = booking.seats_numbers.split(',')
-        
+
         # If seat is in the list of booked seats, remove it
         if seat_number in seats:
             seats.remove(seat_number)
             booking.seats_numbers = ','.join(seats)
             booking.save()
+            
+            # Get the showtime for this booking
+            showtime = booking.showtime
+            
+            # Mark the seat as available
+            seat = Seat.objects.get(showtime=showtime, number=seat_number)
+            seat.is_taken = False
+            seat.save()
         
         # If no more seats are booked, delete the entire booking
         if not booking.seats_numbers:
@@ -238,3 +245,5 @@ def cancel_booking(request, booking_id, seat_number):
     
     except Booking.DoesNotExist:
         raise Http404("Booking not found")
+    except Seat.DoesNotExist:
+        raise Http404("Seat not found")
