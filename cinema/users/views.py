@@ -146,8 +146,9 @@ def book_seats(request):
                     already_taken.append(seat.number)
             if already_taken:
                 # Add error message instead of returning HttpResponse
-                messages.error(request, "One or more selected seats are already booked: " + ", ".join(already_taken))
-                return redirect('book_seats')
+                messages.error(request, f"Seats already booked: {', '.join(already_taken)}. Please select different seats.")
+                return redirect(request.META.get('HTTP_REFERER', 'book_seats'))
+
         else:
             booked_seats = selected_seat_numbers
         
@@ -161,11 +162,13 @@ def book_seats(request):
         
         request.session['movie'] = movie.id
         request.session['showtime'] = showtime.id
-        request.session['booked_seats'] = [seat.number for seat in booked_seats]
+        request.session['booked_seats'] = booked_seats  # Already a list of strings
+
         request.session['booking_complete'] = True
         
         print(f"Booking completed: {booking}")
-        print(f"Booked seats: {[seat.number for seat in booked_seats]}")
+        print(f"Booked seats: {booked_seats}")  # Directly print list of seat numbers
+
         
         return redirect('booking_confirmation')
     
@@ -217,33 +220,38 @@ def booked_seats(request):
 def cancel_booking(request, booking_id, seat_number):
     try:
         # Get the booking based on booking_id
-        booking = Booking.objects.get(id=booking_id)
-        
+        booking = get_object_or_404(Booking, id=booking_id)
+
         # Split seat numbers from the text field
         seats = booking.seats_numbers.split(',')
 
-        # If seat is in the list of booked seats, remove it
-        if seat_number in seats:
-            seats.remove(seat_number)
-            booking.seats_numbers = ','.join(seats)
-            booking.save()
-            
-            # Get the showtime for this booking
-            showtime = booking.showtime
-            
-            # Mark the seat as available
-            seat = Seat.objects.get(showtime=showtime, number=seat_number)
-            seat.is_taken = False
-            seat.save()
-        
-        # If no more seats are booked, delete the entire booking
+        # Ensure the seat number is valid
+        if seat_number not in seats:
+            messages.error(request, "Selected seat is not part of this booking.")
+            return redirect('booked_seats')
+
+        # Remove the seat from the list
+        seats.remove(seat_number)
+        booking.seats_numbers = ','.join(seats)
+        booking.save()
+
+        # Get the showtime for this booking
+        showtime = booking.showtime
+
+        # Get the seat object safely
+        seat = get_object_or_404(Seat, showtime=showtime, number=seat_number)
+        seat.is_taken = False
+        seat.save()
+
+        # If no more seats are booked, delete the booking
         if not booking.seats_numbers:
             booking.delete()
-        
-        # Redirect to the booked seats page
+
+        messages.success(request, f"Seat {seat_number} has been canceled successfully.")
         return redirect('booked_seats')
-    
+
     except Booking.DoesNotExist:
         raise Http404("Booking not found")
     except Seat.DoesNotExist:
         raise Http404("Seat not found")
+
