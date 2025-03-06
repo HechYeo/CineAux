@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from .models import Movie, Showtime, Seat
+from .models import Movie, Showtime, Seat, Booking
 from django.http import HttpResponse
 
 def register(request):
@@ -116,7 +116,6 @@ def choose_seat(request, movie_id, showtime_id):
 
 @login_required
 def book_seats(request):
-    # Retrieve booking data from POST (or fallback to GET)
     movie_id = request.POST.get('movie') or request.GET.get('movie')
     showtime_id = request.POST.get('showtime') or request.GET.get('showtime')
     seats_param = request.POST.get('seats') or request.GET.get('seats')
@@ -127,11 +126,9 @@ def book_seats(request):
     movie = get_object_or_404(Movie, id=movie_id)
     showtime = get_object_or_404(Showtime, id=showtime_id)
     
-    # Split the comma-separated seat numbers (e.g., "A3")
     selected_seat_numbers = seats_param.split(',')
     print("Selected seat numbers from URL:", selected_seat_numbers)
     
-    # Try to fetch matching Seat objects for this showtime
     seats = Seat.objects.filter(showtime=showtime, number__in=selected_seat_numbers)
     
     if request.method == 'POST':
@@ -145,41 +142,73 @@ def book_seats(request):
                 else:
                     return HttpResponse("One or more selected seats are already booked.")
         else:
-            # Fallback: use the raw list if no Seat objects are found
             booked_seats = selected_seat_numbers
         
-        # Mark the booking as complete in the session
+        # Save booking in the database
+        booking = Booking.objects.create(
+            user=request.user, 
+            movie=movie, 
+            showtime=showtime, 
+            seats_numbers=','.join(selected_seat_numbers)  # Store seat numbers
+        )
+        
+        # Store relevant session data
+        request.session['movie'] = movie.id
+        request.session['showtime'] = showtime.id
+        request.session['booked_seats'] = booked_seats  # Store seat objects or seat numbers in session
+        
+        # Mark the booking as complete in the session to avoid issues on next request
         request.session['booking_complete'] = True
         
-        print("Booked seats:", [s.number if hasattr(s, 'number') else s for s in booked_seats])
+        print(f"Booking completed: {booking}")
+        print(f"Booked seats: {booked_seats}")
+
+        # Redirect to confirmation page
+        return redirect('booking_confirmation')  # Use redirect to avoid re-submission
+    
+    # GET request handling
+    return render(request, 'users/book_seats.html', {
+        'movie': movie,
+        'showtime': showtime,
+        'seats': seats,
+        'seats_param': seats_param,
+        'selected_seat_numbers': selected_seat_numbers,
+    })
+
+
+
+def booking_confirmation(request):
+    if 'booking_complete' in request.session:
+        # Remove session flag after confirmation page is visited
+        del request.session['booking_complete']
+        # Continue with rendering confirmation page
+        movie_id = request.session.get('movie')
+        showtime_id = request.session.get('showtime')
+        booked_seats = request.session.get('booked_seats', [])
+        
+        movie = get_object_or_404(Movie, id=movie_id)
+        showtime = get_object_or_404(Showtime, id=showtime_id)
+        
         return render(request, 'users/booking_confirmation.html', {
             'movie': movie,
             'showtime': showtime,
             'booked_seats': booked_seats,
         })
     
-    # GET branch: pass additional raw data so the review page shows selected seats
-    return render(request, 'users/book_seats.html', {
-        'movie': movie,
-        'showtime': showtime,
-        'seats': seats,  # might be empty if no Seat objects exist
-        'seats_param': seats_param,
-        'selected_seat_numbers': selected_seat_numbers,
-    })
+    return redirect('users:dashboard')  # In case the session is not valid
 
-def booking_confirmation(request):
-    # Remove session flag once the confirmation page is visited
-    if 'booking_complete' in request.session:
-        del request.session['booking_complete']
-    
-    # Pass the necessary data to the confirmation page
-    movie = request.session.get('movie')
-    showtime = request.session.get('showtime')
-    booked_seats = request.session.get('booked_seats', [])
-    
-    return render(request, 'users/booking_confirmation.html', {
-        'movie': movie,
-        'showtime': showtime,
-        'booked_seats': booked_seats,
-    })
 
+
+@login_required
+def booked_seats(request):
+    # Retrieve bookings for the logged-in user
+    bookings = Booking.objects.filter(user=request.user)
+    
+    # Process each booking to split the 'seats_numbers' into a list
+    for booking in bookings:
+        booking.seats_list = booking.seats_numbers.split(',')  # Split the seat numbers by commas
+
+    # Pass the bookings to the template
+    return render(request, 'users/booked_seats.html', {
+        'bookings': bookings
+    })
