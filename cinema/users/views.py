@@ -12,6 +12,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from .models import Movie, Showtime, Seat, Booking
 from django.http import HttpResponse
+from django.http import Http404
 
 def register(request):
     # If the user is already logged in, don't show the register page
@@ -201,14 +202,39 @@ def booking_confirmation(request):
 
 @login_required
 def booked_seats(request):
-    # Retrieve bookings for the logged-in user
+    # Get the bookings for the logged-in user
     bookings = Booking.objects.filter(user=request.user)
-    
-    # Process each booking to split the 'seats_numbers' into a list
-    for booking in bookings:
-        booking.seats_list = booking.seats_numbers.split(',')  # Split the seat numbers by commas
 
-    # Pass the bookings to the template
+    # Preprocess the seats_numbers to split it into a list
+    for booking in bookings:
+        booking.seats_list = booking.seats_numbers.split(',')
+
     return render(request, 'users/booked_seats.html', {
         'bookings': bookings
     })
+
+
+@login_required
+def cancel_booking(request, booking_id, seat_number):
+    try:
+        # Get the booking based on booking_id
+        booking = Booking.objects.get(id=booking_id)
+        
+        # Split seat numbers from the text field
+        seats = booking.seats_numbers.split(',')
+        
+        # If seat is in the list of booked seats, remove it
+        if seat_number in seats:
+            seats.remove(seat_number)
+            booking.seats_numbers = ','.join(seats)
+            booking.save()
+        
+        # If no more seats are booked, delete the entire booking
+        if not booking.seats_numbers:
+            booking.delete()
+        
+        # Redirect to the booked seats page
+        return redirect('booked_seats')
+    
+    except Booking.DoesNotExist:
+        raise Http404("Booking not found")

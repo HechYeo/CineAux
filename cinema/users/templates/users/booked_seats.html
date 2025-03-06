@@ -42,6 +42,9 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .movie-title {
@@ -63,6 +66,17 @@
             color: white;
             border-radius: 5px;
         }
+
+        .cancel-button {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
         .btn-back {
             position: absolute;
             top: 15px;
@@ -97,6 +111,11 @@
                             {% if booking.seats_list %}
                                 {% for seat in booking.seats_list %}
                                     <span>{{ seat }}</span>
+                                    <!-- Form for canceling a seat -->
+                                    <form action="{% url 'cancel_booking' booking.id seat %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="cancel-button">Cancel</button>
+                                    </form>
                                 {% endfor %}
                             {% else %}
                                 <span>No seats booked</span>
