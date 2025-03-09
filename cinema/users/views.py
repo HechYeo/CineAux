@@ -145,7 +145,6 @@ def book_seats(request):
                 else:
                     already_taken.append(seat.number)
             if already_taken:
-                # Add error message instead of returning HttpResponse
                 messages.error(request, f"Seats already booked: {', '.join(already_taken)}. Please select different seats.")
                 return redirect(request.META.get('HTTP_REFERER', 'book_seats'))
 
@@ -162,13 +161,11 @@ def book_seats(request):
         
         request.session['movie'] = movie.id
         request.session['showtime'] = showtime.id
-        request.session['booked_seats'] = booked_seats  # Already a list of strings
-
+        request.session['booked_seats'] = [seat.number for seat in booked_seats]  # Fix: Store seat numbers, not objects
         request.session['booking_complete'] = True
         
         print(f"Booking completed: {booking}")
-        print(f"Booked seats: {booked_seats}")  # Directly print list of seat numbers
-
+        print(f"Booked seats: {request.session['booked_seats']}")  # Now this will print seat numbers
         
         return redirect('booking_confirmation')
     
@@ -179,6 +176,7 @@ def book_seats(request):
         'seats_param': seats_param,
         'selected_seat_numbers': selected_seat_numbers,
     })
+
 
 
 def booking_confirmation(request):
