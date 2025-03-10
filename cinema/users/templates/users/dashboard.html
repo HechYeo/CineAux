@@ -20,37 +20,63 @@
             width: 100%;
             max-width: 900px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
+            animation: flare 1.5s infinite alternate;
+        }
+
+        /* Flare effect animation */
+        @keyframes flare {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.5), 0 0 50px rgba(0, 123, 255, 0.3), 0 0 100px rgba(0, 123, 255, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(0, 123, 255, 0.7), 0 0 75px rgba(0, 123, 255, 0.5), 0 0 150px rgba(0, 123, 255, 0.4);
+            }
         }
 
         h2 {
             text-align: center;
             color: #fff;
-            font-size: 28px;
+            font-size: 36px;
+            font-weight: bold;
             margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
         .dashboard-content {
             margin-top: 30px;
             font-size: 18px;
             color: #ccc;
+            line-height: 1.6;
+            text-align: center;
         }
 
-        .btn-logout {
-            display: block;
-            margin: 20px auto;
-            padding: 12px;
-            background-color: #f44336;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .dashboard-content p {
+            font-size: 20px;
+            color: #fff;
+            font-weight: lighter;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
         }
 
-        .btn-logout:hover {
-            background-color: #e53935;
+        .dashboard-content span {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .movie-list-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .movie-list-container h3 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .movie-list {
@@ -72,6 +98,11 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.05);
         }
 
         .movie-item a {
@@ -141,6 +172,13 @@
             cursor: pointer;
             font-size: 16px;
             display: inline-block;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-button:hover {
+            background-color: #0056b3; /* Darker blue */
+            transform: scale(1.1); /* Slightly enlarge the button */
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7); /* Glowing effect */
         }
 
         .profile-menu {
@@ -185,10 +223,13 @@
             </div>
         </div>
 
-        <h2>CineFlex</h2>
+        <h2>Welcome to CineAux!</h2>
         
         <div class="dashboard-content">
-            <p>The Cinema you are looking for!</p>
+            <p>Where every seat is the <span>best seat</span> in the house.<br>
+            Explore the latest blockbusters, discover hidden gems, and book your next movie night with ease.<br>
+            From action-packed thrillers to heartwarming dramas, your cinematic experience begins here.<br>
+            Grab your tickets, sit back, and enjoy the show!</p>
         </div>
 
         <div class="movie-list-container">
