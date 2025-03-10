@@ -64,7 +64,9 @@
         .seat.booked {
             background-color: #dc3545;
             cursor: not-allowed;
+            pointer-events: none;
         }
+
 
         .screen-line {
             grid-column: 1 / -1;
@@ -203,62 +205,62 @@
         <div class="screen-text">Leinwand</div>
         
         <!-- Row M - 14 seats -->
-        <div class="row" style="grid-template-columns: repeat(15, 1fr) 1fr">
-            <div class="seat">M1</div>
-            <div class="seat">M2</div>
-            <div class="seat">M3</div>
-            <div class="seat">M4</div>
-            <div class="seat">M5</div>
-            <div class="seat">M6</div>
-            <div class="seat">M7</div>
-            <div class="seat">M8</div>
-            <div class="seat">M9</div>
-            <div class="seat">M10</div>
-            <div class="seat">M11</div>
-            <div class="seat">M12</div>
-            <div class="seat">M13</div>
-            <div class="seat">M14</div>
+        <div class="row" style="grid-template-columns: repeat(15, 1fr)">
+            <div class="seat {% if 'M1' in booked_seats %}booked{% endif %}">M1</div>
+            <div class="seat {% if 'M2' in booked_seats %}booked{% endif %}">M2</div>
+            <div class="seat {% if 'M3' in booked_seats %}booked{% endif %}">M3</div>
+            <div class="seat {% if 'M4' in booked_seats %}booked{% endif %}">M4</div>
+            <div class="seat {% if 'M5' in booked_seats %}booked{% endif %}">M5</div>
+            <div class="seat {% if 'M6' in booked_seats %}booked{% endif %}">M6</div>
+            <div class="seat {% if 'M7' in booked_seats %}booked{% endif %}">M7</div>
+            <div class="seat {% if 'M8' in booked_seats %}booked{% endif %}">M8</div>
+            <div class="seat {% if 'M9' in booked_seats %}booked{% endif %}">M9</div>
+            <div class="seat {% if 'M10' in booked_seats %}booked{% endif %}">M10</div>
+            <div class="seat {% if 'M11' in booked_seats %}booked{% endif %}">M11</div>
+            <div class="seat {% if 'M12' in booked_seats %}booked{% endif %}">M12</div>
+            <div class="seat {% if 'M13' in booked_seats %}booked{% endif %}">M13</div>
+            <div class="seat {% if 'M14' in booked_seats %}booked{% endif %}">M14</div>
         </div>
         
         <!-- Row L - 18 seats -->
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">L1</div>
-            <div class="seat">L2</div>
-            <div class="seat">L3</div>
-            <div class="seat">L4</div>
-            <div class="seat">L5</div>
-            <div class="seat">L6</div>
-            <div class="seat">L7</div>
-            <div class="seat">L8</div>
-            <div class="seat">L9</div>
-            <div class="seat">L10</div>
-            <div class="seat">L11</div>
-            <div class="seat">L12</div>
-            <div class="seat">L13</div>
-            <div class="seat">L14</div>
-            <div class="seat">L15</div>
-            <div class="seat">L16</div>
-            <div class="seat">L17</div>
-            <div class="seat">L18</div>
+            <div class="seat {% if 'L1' in booked_seats %}booked{% endif %}">L1</div>
+            <div class="seat {% if 'L2' in booked_seats %}booked{% endif %}">L2</div>
+            <div class="seat {% if 'L3' in booked_seats %}booked{% endif %}">L3</div>
+            <div class="seat {% if 'L4' in booked_seats %}booked{% endif %}">L4</div>
+            <div class="seat {% if 'L5' in booked_seats %}booked{% endif %}">L5</div>
+            <div class="seat {% if 'L6' in booked_seats %}booked{% endif %}">L6</div>
+            <div class="seat {% if 'L7' in booked_seats %}booked{% endif %}">L7</div>
+            <div class="seat {% if 'L8' in booked_seats %}booked{% endif %}">L8</div>
+            <div class="seat {% if 'L9' in booked_seats %}booked{% endif %}">L9</div>
+            <div class="seat {% if 'L10' in booked_seats %}booked{% endif %}">L10</div>
+            <div class="seat {% if 'L11' in booked_seats %}booked{% endif %}">L11</div>
+            <div class="seat {% if 'L12' in booked_seats %}booked{% endif %}">L12</div>
+            <div class="seat {% if 'L13' in booked_seats %}booked{% endif %}">L13</div>
+            <div class="seat {% if 'L14' in booked_seats %}booked{% endif %}">L14</div>
+            <div class="seat {% if 'L15' in booked_seats %}booked{% endif %}">L15</div>
+            <div class="seat {% if 'L16' in booked_seats %}booked{% endif %}">L16</div>
+            <div class="seat {% if 'L17' in booked_seats %}booked{% endif %}">L17</div>
+            <div class="seat {% if 'L18' in booked_seats %}booked{% endif %}">L18</div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
         </div>
         <div class="row" style="grid-template-columns: repeat(17, 1fr) 3fr;">
-            <div class="seat">K1</div>
-            <div class="seat">K2</div>
-            <div class="seat">K3</div>
-            <div class="seat">K4</div>
-            <div class="seat">K5</div>
-            <div class="seat">K6</div>
-            <div class="seat">K7</div>
-            <div class="seat">K8</div>
-            <div class="seat">K9</div>
-            <div class="seat">K10</div>
-            <div class="seat">K11</div>
-            <div class="seat">K12</div>
-            <div class="seat">K13</div>
-            <div class="seat">K14</div>
-            <div class="seat">K15</div>
+            <div class="seat {% if 'K1' in booked_seats %}booked{% endif %}">K1</div>
+            <div class="seat {% if 'K2' in booked_seats %}booked{% endif %}">K2</div>
+            <div class="seat {% if 'K3' in booked_seats %}booked{% endif %}">K3</div>
+            <div class="seat {% if 'K4' in booked_seats %}booked{% endif %}">K4</div>
+            <div class="seat {% if 'K5' in booked_seats %}booked{% endif %}">K5</div>
+            <div class="seat {% if 'K6' in booked_seats %}booked{% endif %}">K6</div>
+            <div class="seat {% if 'K7' in booked_seats %}booked{% endif %}">K7</div>
+            <div class="seat {% if 'K8' in booked_seats %}booked{% endif %}">K8</div>
+            <div class="seat {% if 'K9' in booked_seats %}booked{% endif %}">K9</div>
+            <div class="seat {% if 'K10' in booked_seats %}booked{% endif %}">K10</div>
+            <div class="seat {% if 'K11' in booked_seats %}booked{% endif %}">K11</div>
+            <div class="seat {% if 'K12' in booked_seats %}booked{% endif %}">K12</div>
+            <div class="seat {% if 'K13' in booked_seats %}booked{% endif %}">K13</div>
+            <div class="seat {% if 'K14' in booked_seats %}booked{% endif %}">K14</div>
+            <div class="seat {% if 'K15' in booked_seats %}booked{% endif %}">K15</div>
             <div class="seat" style="display: none;"></div>
             <div class="arrow-seat">
                 <!-- Large white arrow replacing 3 invisible seats -->
@@ -267,42 +269,42 @@
             </div>
         </div>
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">J1</div>
-            <div class="seat">J2</div>
-            <div class="seat">J3</div>
-            <div class="seat">J4</div>
-            <div class="seat">J5</div>
-            <div class="seat">J6</div>
-            <div class="seat">J7</div>
-            <div class="seat">J8</div>
-            <div class="seat">J9</div>
-            <div class="seat">J10</div>
-            <div class="seat">J11</div>
-            <div class="seat">J12</div>
-            <div class="seat">J13</div>
-            <div class="seat">J14</div>
-            <div class="seat">J15</div>
+            <div class="seat {% if 'J1' in booked_seats %}booked{% endif %}">J1</div>
+            <div class="seat {% if 'J2' in booked_seats %}booked{% endif %}">J2</div>
+            <div class="seat {% if 'J3' in booked_seats %}booked{% endif %}">J3</div>
+            <div class="seat {% if 'J4' in booked_seats %}booked{% endif %}">J4</div>
+            <div class="seat {% if 'J5' in booked_seats %}booked{% endif %}">J5</div>
+            <div class="seat {% if 'J6' in booked_seats %}booked{% endif %}">J6</div>
+            <div class="seat {% if 'J7' in booked_seats %}booked{% endif %}">J7</div>
+            <div class="seat {% if 'J8' in booked_seats %}booked{% endif %}">J8</div>
+            <div class="seat {% if 'J9' in booked_seats %}booked{% endif %}">J9</div>
+            <div class="seat {% if 'J10' in booked_seats %}booked{% endif %}">J10</div>
+            <div class="seat {% if 'J11' in booked_seats %}booked{% endif %}">J11</div>
+            <div class="seat {% if 'J12' in booked_seats %}booked{% endif %}">J12</div>
+            <div class="seat {% if 'J13' in booked_seats %}booked{% endif %}">J13</div>
+            <div class="seat {% if 'J14' in booked_seats %}booked{% endif %}">J14</div>
+            <div class="seat {% if 'J15' in booked_seats %}booked{% endif %}">J15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="display: none;"></div>
             <div class="seat" style="display: none;"></div>
             <div class="seat" style="display: none;"></div>
         </div>
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">I1</div>
-            <div class="seat">I2</div>
-            <div class="seat">I3</div>
-            <div class="seat">I4</div>
-            <div class="seat">I5</div>
-            <div class="seat">I6</div>
-            <div class="seat">I7</div>
-            <div class="seat">I8</div>
-            <div class="seat">I9</div>
-            <div class="seat">I10</div>
-            <div class="seat">I11</div>
-            <div class="seat">I12</div>
-            <div class="seat">I13</div>
-            <div class="seat">I14</div>
-            <div class="seat">I15</div>
+            <div class="seat {% if 'I1' in booked_seats %}booked{% endif %}">I1</div>
+            <div class="seat {% if 'I2' in booked_seats %}booked{% endif %}">I2</div>
+            <div class="seat {% if 'I3' in booked_seats %}booked{% endif %}">I3</div>
+            <div class="seat {% if 'I4' in booked_seats %}booked{% endif %}">I4</div>
+            <div class="seat {% if 'I5' in booked_seats %}booked{% endif %}">I5</div>
+            <div class="seat {% if 'I6' in booked_seats %}booked{% endif %}">I6</div>
+            <div class="seat {% if 'I7' in booked_seats %}booked{% endif %}">I7</div>
+            <div class="seat {% if 'I8' in booked_seats %}booked{% endif %}">I8</div>
+            <div class="seat {% if 'I9' in booked_seats %}booked{% endif %}">I9</div>
+            <div class="seat {% if 'I10' in booked_seats %}booked{% endif %}">I10</div>
+            <div class="seat {% if 'I11' in booked_seats %}booked{% endif %}">I11</div>
+            <div class="seat {% if 'I12' in booked_seats %}booked{% endif %}">I12</div>
+            <div class="seat {% if 'I13' in booked_seats %}booked{% endif %}">I13</div>
+            <div class="seat {% if 'I14' in booked_seats %}booked{% endif %}">I14</div>
+            <div class="seat {% if 'I15' in booked_seats %}booked{% endif %}">I15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
@@ -311,157 +313,157 @@
         <!-- Row G-K - 17 seats with empty space after 15th seat -->
         <!-- Each of these rows will have 15 seats followed by 3 empty divs to create the gap -->
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">H1</div>
-            <div class="seat">H2</div>
-            <div class="seat">H3</div>
-            <div class="seat">H4</div>
-            <div class="seat">H5</div>
-            <div class="seat">H6</div>
-            <div class="seat">H7</div>
-            <div class="seat">H8</div>
-            <div class="seat">H9</div>
-            <div class="seat">H10</div>
-            <div class="seat">H11</div>
-            <div class="seat">H12</div>
-            <div class="seat">H13</div>
-            <div class="seat">H14</div>
-            <div class="seat">H15</div>
+            <div class="seat {% if 'H1' in booked_seats %}booked{% endif %}">H1</div>
+            <div class="seat {% if 'H2' in booked_seats %}booked{% endif %}">H2</div>
+            <div class="seat {% if 'H3' in booked_seats %}booked{% endif %}">H3</div>
+            <div class="seat {% if 'H4' in booked_seats %}booked{% endif %}">H4</div>
+            <div class="seat {% if 'H5' in booked_seats %}booked{% endif %}">H5</div>
+            <div class="seat {% if 'H6' in booked_seats %}booked{% endif %}">H6</div>
+            <div class="seat {% if 'H7' in booked_seats %}booked{% endif %}">H7</div>
+            <div class="seat {% if 'H8' in booked_seats %}booked{% endif %}">H8</div>
+            <div class="seat {% if 'H9' in booked_seats %}booked{% endif %}">H9</div>
+            <div class="seat {% if 'H10' in booked_seats %}booked{% endif %}">H10</div>
+            <div class="seat {% if 'H11' in booked_seats %}booked{% endif %}">H11</div>
+            <div class="seat {% if 'H12' in booked_seats %}booked{% endif %}">H12</div>
+            <div class="seat {% if 'H13' in booked_seats %}booked{% endif %}">H13</div>
+            <div class="seat {% if 'H14' in booked_seats %}booked{% endif %}">H14</div>
+            <div class="seat {% if 'H15' in booked_seats %}booked{% endif %}">H15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
         </div>
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">G1</div>
-            <div class="seat">G2</div>
-            <div class="seat">G3</div>
-            <div class="seat">G4</div>
-            <div class="seat">G5</div>
-            <div class="seat">G6</div>
-            <div class="seat">G7</div>
-            <div class="seat">G8</div>
-            <div class="seat">G9</div>
-            <div class="seat">G10</div>
-            <div class="seat">G11</div>
-            <div class="seat">G12</div>
-            <div class="seat">G13</div>
-            <div class="seat">G14</div>
-            <div class="seat">G15</div>
+            <div class="seat {% if 'G1' in booked_seats %}booked{% endif %}">G1</div>
+            <div class="seat {% if 'G2' in booked_seats %}booked{% endif %}">G2</div>
+            <div class="seat {% if 'G3' in booked_seats %}booked{% endif %}">G3</div>
+            <div class="seat {% if 'G4' in booked_seats %}booked{% endif %}">G4</div>
+            <div class="seat {% if 'G5' in booked_seats %}booked{% endif %}">G5</div>
+            <div class="seat {% if 'G6' in booked_seats %}booked{% endif %}">G6</div>
+            <div class="seat {% if 'G7' in booked_seats %}booked{% endif %}">G7</div>
+            <div class="seat {% if 'G8' in booked_seats %}booked{% endif %}">G8</div>
+            <div class="seat {% if 'G9' in booked_seats %}booked{% endif %}">G9</div>
+            <div class="seat {% if 'G10' in booked_seats %}booked{% endif %}">G10</div>
+            <div class="seat {% if 'G11' in booked_seats %}booked{% endif %}">G11</div>
+            <div class="seat {% if 'G12' in booked_seats %}booked{% endif %}">G12</div>
+            <div class="seat {% if 'G13' in booked_seats %}booked{% endif %}">G13</div>
+            <div class="seat {% if 'G14' in booked_seats %}booked{% endif %}">G14</div>
+            <div class="seat {% if 'G15' in booked_seats %}booked{% endif %}">G15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">G16</div>
-            <div class="seat">G17</div>
+            <div class="seat {% if 'G16' in booked_seats %}booked{% endif %}">G16</div>
+            <div class="seat {% if 'G17' in booked_seats %}booked{% endif %}">G17</div>
         </div>
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">F1</div>
-            <div class="seat">F2</div>
-            <div class="seat">F3</div>
-            <div class="seat">F4</div>
-            <div class="seat">F5</div>
-            <div class="seat">F6</div>
-            <div class="seat">F7</div>
-            <div class="seat">F8</div>
-            <div class="seat">F9</div>
-            <div class="seat">F10</div>
-            <div class="seat">F11</div>
-            <div class="seat">F12</div>
-            <div class="seat">F13</div>
-            <div class="seat">F14</div>
-            <div class="seat">F15</div>
+            <div class="seat {% if 'F1' in booked_seats %}booked{% endif %}">F1</div>
+            <div class="seat {% if 'F2' in booked_seats %}booked{% endif %}">F2</div>
+            <div class="seat {% if 'F3' in booked_seats %}booked{% endif %}">F3</div>
+            <div class="seat {% if 'F4' in booked_seats %}booked{% endif %}">F4</div>
+            <div class="seat {% if 'F5' in booked_seats %}booked{% endif %}">F5</div>
+            <div class="seat {% if 'F6' in booked_seats %}booked{% endif %}">F6</div>
+            <div class="seat {% if 'F7' in booked_seats %}booked{% endif %}">F7</div>
+            <div class="seat {% if 'F8' in booked_seats %}booked{% endif %}">F8</div>
+            <div class="seat {% if 'F9' in booked_seats %}booked{% endif %}">F9</div>
+            <div class="seat {% if 'F10' in booked_seats %}booked{% endif %}">F10</div>
+            <div class="seat {% if 'F11' in booked_seats %}booked{% endif %}">F11</div>
+            <div class="seat {% if 'F12' in booked_seats %}booked{% endif %}">F12</div>
+            <div class="seat {% if 'F13' in booked_seats %}booked{% endif %}">F13</div>
+            <div class="seat {% if 'F14' in booked_seats %}booked{% endif %}">F14</div>
+            <div class="seat {% if 'F15' in booked_seats %}booked{% endif %}">F15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">F16</div>
-            <div class="seat">F17</div>
+            <div class="seat {% if 'F16' in booked_seats %}booked{% endif %}">F16</div>
+            <div class="seat {% if 'F17' in booked_seats %}booked{% endif %}">F17</div>
         </div>
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">E1</div>
-            <div class="seat">E2</div>
-            <div class="seat">E3</div>
-            <div class="seat">E4</div>
-            <div class="seat">E5</div>
-            <div class="seat">E6</div>
-            <div class="seat">E7</div>
-            <div class="seat">E8</div>
-            <div class="seat">E9</div>
-            <div class="seat">E10</div>
-            <div class="seat">E11</div>
-            <div class="seat">E12</div>
-            <div class="seat">E13</div>
-            <div class="seat">E14</div>
-            <div class="seat">E15</div>
+            <div class="seat {% if 'E1' in booked_seats %}booked{% endif %}">E1</div>
+            <div class="seat {% if 'E2' in booked_seats %}booked{% endif %}">E2</div>
+            <div class="seat {% if 'E3' in booked_seats %}booked{% endif %}">E3</div>
+            <div class="seat {% if 'E4' in booked_seats %}booked{% endif %}">E4</div>
+            <div class="seat {% if 'E5' in booked_seats %}booked{% endif %}">E5</div>
+            <div class="seat {% if 'E6' in booked_seats %}booked{% endif %}">E6</div>
+            <div class="seat {% if 'E7' in booked_seats %}booked{% endif %}">E7</div>
+            <div class="seat {% if 'E8' in booked_seats %}booked{% endif %}">E8</div>
+            <div class="seat {% if 'E9' in booked_seats %}booked{% endif %}">E9</div>
+            <div class="seat {% if 'E10' in booked_seats %}booked{% endif %}">E10</div>
+            <div class="seat {% if 'E11' in booked_seats %}booked{% endif %}">E11</div>
+            <div class="seat {% if 'E12' in booked_seats %}booked{% endif %}">E12</div>
+            <div class="seat {% if 'E13' in booked_seats %}booked{% endif %}">E13</div>
+            <div class="seat {% if 'E14' in booked_seats %}booked{% endif %}">E14</div>
+            <div class="seat {% if 'E15' in booked_seats %}booked{% endif %}">E15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">E16</div>
-            <div class="seat">E17</div>
+            <div class="seat {% if 'E16' in booked_seats %}booked{% endif %}">E16</div>
+            <div class="seat {% if 'E17' in booked_seats %}booked{% endif %}">E17</div>
         </div>
         <!-- Rows D to G - 17 seats with empty spaces after 15th seat -->
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
-            <div class="seat">D1</div>
-            <div class="seat">D2</div>
-            <div class="seat">D3</div>
-            <div class="seat">D4</div>
-            <div class="seat">D5</div>
-            <div class="seat">D6</div>
-            <div class="seat">D7</div>
-            <div class="seat">D8</div>
-            <div class="seat">D9</div>
-            <div class="seat">D10</div>
-            <div class="seat">D11</div>
-            <div class="seat">D12</div>
-            <div class="seat">D13</div>
-            <div class="seat">D14</div>
-            <div class="seat">D15</div>
+            <div class="seat {% if 'D1' in booked_seats %}booked{% endif %}">D1</div>
+            <div class="seat {% if 'D2' in booked_seats %}booked{% endif %}">D2</div>
+            <div class="seat {% if 'D3' in booked_seats %}booked{% endif %}">D3</div>
+            <div class="seat {% if 'D4' in booked_seats %}booked{% endif %}">D4</div>
+            <div class="seat {% if 'D5' in booked_seats %}booked{% endif %}">D5</div>
+            <div class="seat {% if 'D6' in booked_seats %}booked{% endif %}">D6</div>
+            <div class="seat {% if 'D7' in booked_seats %}booked{% endif %}">D7</div>
+            <div class="seat {% if 'D8' in booked_seats %}booked{% endif %}">D8</div>
+            <div class="seat {% if 'D9' in booked_seats %}booked{% endif %}">D9</div>
+            <div class="seat {% if 'D10' in booked_seats %}booked{% endif %}">D10</div>
+            <div class="seat {% if 'D11' in booked_seats %}booked{% endif %}">D11</div>
+            <div class="seat {% if 'D12' in booked_seats %}booked{% endif %}">D12</div>
+            <div class="seat {% if 'D13' in booked_seats %}booked{% endif %}">D13</div>
+            <div class="seat {% if 'D14' in booked_seats %}booked{% endif %}">D14</div>
+            <div class="seat {% if 'D15' in booked_seats %}booked{% endif %}">D15</div>
             <!-- Empty spaces (gap) -->
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">D16</div>
-            <div class="seat">D17</div>
+            <div class="seat {% if 'D16' in booked_seats %}booked{% endif %}">D16</div>
+            <div class="seat {% if 'D17' in booked_seats %}booked{% endif %}">D17</div>
         </div>
 
             <!-- Row C - 11 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
-            <div class="seat">C1</div>
-            <div class="seat">C2</div>
-            <div class="seat">C3</div>
-            <div class="seat">C4</div>
-            <div class="seat">C5</div>
-            <div class="seat">C6</div>
-            <div class="seat">C7</div>
-            <div class="seat">C8</div>
-            <div class="seat">C9</div>
+            <div class="seat {% if 'C1' in booked_seats %}booked{% endif %}">C1</div>
+            <div class="seat {% if 'C2' in booked_seats %}booked{% endif %}">C2</div>
+            <div class="seat {% if 'C3' in booked_seats %}booked{% endif %}">C3</div>
+            <div class="seat {% if 'C4' in booked_seats %}booked{% endif %}">C4</div>
+            <div class="seat {% if 'C5' in booked_seats %}booked{% endif %}">C5</div>
+            <div class="seat {% if 'C6' in booked_seats %}booked{% endif %}">C6</div>
+            <div class="seat {% if 'C7' in booked_seats %}booked{% endif %}">C7</div>
+            <div class="seat {% if 'C8' in booked_seats %}booked{% endif %}">C8</div>
+            <div class="seat {% if 'C9' in booked_seats %}booked{% endif %}">C9</div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">C10</div>
-            <div class="seat">C11</div>
+            <div class="seat {% if 'C10' in booked_seats %}booked{% endif %}">C10</div>
+            <div class="seat {% if 'C11' in booked_seats %}booked{% endif %}">C11</div>
         </div>
 
         <!-- Row B - 8 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
-            <div class="seat">B1</div>
-            <div class="seat">B2</div>
-            <div class="seat">B3</div>
+            <div class="seat {% if 'B1' in booked_seats %}booked{% endif %}">B1</div>
+            <div class="seat {% if 'B2' in booked_seats %}booked{% endif %}">B2</div>
+            <div class="seat {% if 'B3' in booked_seats %}booked{% endif %}">B3</div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
-            <div class="seat">B4</div>
-            <div class="seat">B5</div>
-            <div class="seat">B6</div>
-            <div class="seat">B7</div>
-            <div class="seat">B8</div>
+            <div class="seat {% if 'B4' in booked_seats %}booked{% endif %}">B4</div>
+            <div class="seat {% if 'B5' in booked_seats %}booked{% endif %}">B5</div>
+            <div class="seat {% if 'B6' in booked_seats %}booked{% endif %}">B6</div>
+            <div class="seat {% if 'B7' in booked_seats %}booked{% endif %}">B7</div>
+            <div class="seat {% if 'B8' in booked_seats %}booked{% endif %}">B8</div>
         </div>
 
         <!-- Row A - 2 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
-            <div class="seat">A1</div>
-            <div class="seat">A2</div>
-            <div class="seat">A3</div>
+            <div class="seat {% if 'A1' in booked_seats %}booked{% endif %}">A1</div>
+            <div class="seat {% if 'A2' in booked_seats %}booked{% endif %}">A2</div>
+            <div class="seat {% if 'A3' in booked_seats %}booked{% endif %}">A3</div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
@@ -491,6 +493,10 @@
     const seats = document.querySelectorAll('.seat');
     seats.forEach(seat => {
         seat.addEventListener('click', () => {
+            // Don't allow selection of booked seats
+            if (seat.classList.contains('booked')) {
+                return; // Do nothing if the seat is booked
+            }
             seat.classList.toggle('selected');
         });
     });

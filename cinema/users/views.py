@@ -108,13 +108,37 @@ class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'users/change_password.html'  # Path to your template
     success_url = reverse_lazy('profile')  # Redirect to the profile page after successful password change
 
+
 def choose_seat(request, movie_id, showtime_id):
+    # Get the showtime object from the database using the provided showtime_id
     showtime = get_object_or_404(Showtime, id=showtime_id)
-    movie = showtime.movie  # Access the movie related to this showtime
+    
+    # Access the related movie object
+    movie = showtime.movie
+    
+    # Get the seats for this showtime (assuming Seat model links to Showtimes)
+    seats = Seat.objects.filter(showtime=showtime)
+    
+    # Get the bookings for the showtime
+    booked_seats_queryset = showtime.booking_set.all()  # Query all bookings for this showtime
+    
+    # Initialize the booked_seats list as an empty list
+    booked_seats = []
+
+    # Populate the booked_seats list with the seat numbers from each booking
+    for booking in booked_seats_queryset:
+        # Assuming 'seats_numbers' is a comma-separated string
+        booked_seats.extend(booking.seats_numbers.split(','))
+    
+    # Now, pass 'booked_seats' to the template along with the other context
     return render(request, 'users/choose_seat.html', {
         'showtime': showtime,
-        'movie': movie  # Pass the movie object to the template
+        'movie': movie,
+        'seats': seats,
+        'booked_seats': booked_seats  # Pass the list of booked seat numbers to the template
     })
+
+
 
 @login_required
 def book_seats(request):
@@ -254,7 +278,7 @@ def cancel_booking(request, booking_id, seat_number):
         if not booking.seats_numbers:
             booking.delete()
 
-        messages.success(request, f"Seat {seat_number} has been canceled successfully.")
+        # messages.success(request, f"Seat {seat_number} has been canceled successfully.")
         return redirect('booked_seats')
 
     except Booking.DoesNotExist:
