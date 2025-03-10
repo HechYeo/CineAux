@@ -121,54 +121,63 @@ def book_seats(request):
     movie_id = request.POST.get('movie') or request.GET.get('movie')
     showtime_id = request.POST.get('showtime') or request.GET.get('showtime')
     seats_param = request.POST.get('seats') or request.GET.get('seats')
-    
+
     if not (movie_id and showtime_id and seats_param):
         return HttpResponse("Missing booking information.")
-    
+
     movie = get_object_or_404(Movie, id=movie_id)
     showtime = get_object_or_404(Showtime, id=showtime_id)
-    
+
     selected_seat_numbers = seats_param.split(',')
     print("Selected seat numbers from URL:", selected_seat_numbers)
-    
+
     seats = Seat.objects.filter(showtime=showtime, number__in=selected_seat_numbers)
-    
+
     if request.method == 'POST':
         booked_seats = []
         already_taken = []
-        if seats.exists():
-            for seat in seats:
+        missing_seats = []
+
+        for seat_number in selected_seat_numbers:
+            seat = seats.filter(number=seat_number).first()
+            if seat:
                 if not seat.is_taken:
                     seat.is_taken = True
                     seat.save()
                     booked_seats.append(seat)
                 else:
                     already_taken.append(seat.number)
-            if already_taken:
-                messages.error(request, f"Seats already booked: {', '.join(already_taken)}. Please select different seats.")
-                return redirect(request.META.get('HTTP_REFERER', 'book_seats'))
+            else:
+                missing_seats.append(seat_number)
 
-        else:
-            booked_seats = selected_seat_numbers
-        
+        if already_taken:
+            messages.error(request, f"Seats already booked: {', '.join(already_taken)}. Please select different seats.")
+            return redirect(request.META.get('HTTP_REFERER', 'book_seats'))
+
+        if missing_seats:
+            messages.error(request, f"Some seats were not found: {', '.join(missing_seats)}. Please try again.")
+            return redirect(request.META.get('HTTP_REFERER', 'book_seats'))
+
         # Save booking in the database
         booking = Booking.objects.create(
             user=request.user, 
             movie=movie, 
             showtime=showtime, 
-            seats_numbers=','.join(selected_seat_numbers)
+            seats_numbers=','.join([seat.number for seat in booked_seats])
         )
-        
+
         request.session['movie'] = movie.id
         request.session['showtime'] = showtime.id
-        request.session['booked_seats'] = [seat.number for seat in booked_seats]  # Fix: Store seat numbers, not objects
+        request.session['booked_seats'] = [seat.number for seat in booked_seats]  # Store seat numbers, not objects
         request.session['booking_complete'] = True
-        
+
         print(f"Booking completed: {booking}")
-        print(f"Booked seats: {request.session['booked_seats']}")  # Now this will print seat numbers
-        
+        print(f"Booked seats: {request.session['booked_seats']}")
+        print("✅ Booking complete session set!")  # Debugging print
+
         return redirect('booking_confirmation')
-    
+
+
     return render(request, 'users/book_seats.html', {
         'movie': movie,
         'showtime': showtime,
