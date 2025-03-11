@@ -488,48 +488,56 @@
     </div>
 
 
-  <script>
-    // Toggle selection on seat click
-    const seats = document.querySelectorAll('.seat');
-    seats.forEach(seat => {
-        seat.addEventListener('click', () => {
-            // Don't allow selection of booked seats
-            if (seat.classList.contains('booked')) {
-                return; // Do nothing if the seat is booked
+    <script>
+        // Limit the number of seats to be selected to 3
+        const maxSelection = 3;
+        const seats = document.querySelectorAll('.seat');
+        
+        seats.forEach(seat => {
+            seat.addEventListener('click', () => {
+                // Don't allow selection of booked seats
+                if (seat.classList.contains('booked')) {
+                    return; // Do nothing if the seat is booked
+                }
+    
+                // Toggle the selected class
+                if (seat.classList.contains('selected')) {
+                    seat.classList.remove('selected');
+                } else {
+                    // Check if the maximum selection has been reached
+                    const selectedSeats = document.querySelectorAll('.seat.selected');
+                    if (selectedSeats.length < maxSelection) {
+                        seat.classList.add('selected');
+                    } else {
+                        alert(`You can only select up to ${maxSelection} seats.`);
+                    }
+                }
+            });
+        });
+    
+        // When clicking "Proceed to Book Seats", gather selected seat labels and redirect
+        const proceedBtn = document.querySelector('.btn-proceed');
+        proceedBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            let selectedSeats = [];
+            document.querySelectorAll('.seat.selected').forEach(seat => {
+                let seatNumber = seat.textContent.trim();
+                selectedSeats.push(seatNumber);
+            });
+    
+            if (selectedSeats.length === 0) {
+                alert("Please select at least one seat.");
+                return;
             }
-            seat.classList.toggle('selected');
+    
+            let movieId = proceedBtn.getAttribute('data-movie');
+            let showtimeId = proceedBtn.getAttribute('data-showtime');
+            let seatsParam = encodeURIComponent(selectedSeats.join(','));
+            let url = proceedBtn.href + "?movie=" + movieId + "&showtime=" + showtimeId + "&seats=" + seatsParam;
+    
+            window.location.href = url;
         });
-    });
-  
-    // When clicking "Proceed to Book Seats", gather selected seat labels and redirect
-    const proceedBtn = document.querySelector('.btn-proceed');
-    proceedBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        let selectedSeats = [];
-        document.querySelectorAll('.seat.selected').forEach(seat => {
-            let seatNumber = seat.textContent.trim();
-            selectedSeats.push(seatNumber);
-        });
-        
-        // Debug: Check what seats have been selected
-        console.log("Selected Seats: ", selectedSeats);
-        
-        if (selectedSeats.length === 0) {
-            alert("Please select at least one seat.");
-            return;
-        }
-        
-        let movieId = proceedBtn.getAttribute('data-movie');
-        let showtimeId = proceedBtn.getAttribute('data-showtime');
-        let seatsParam = encodeURIComponent(selectedSeats.join(','));
-        let url = proceedBtn.href + "?movie=" + movieId + "&showtime=" + showtimeId + "&seats=" + seatsParam;
-        
-        // Debug: Check the final URL before redirecting
-        console.log("Redirecting to: ", url);
-        
-        window.location.href = url;
-    });
-  </script>
+    </script>
   
 </body>
 </html>
