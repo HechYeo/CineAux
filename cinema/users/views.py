@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from .models import Movie, Showtime, Seat, Booking
+from .models import Movie, Showtime, Seat, Booking, User
 from django.http import HttpResponse
 from django.http import Http404
 from django.db import transaction
@@ -286,3 +286,50 @@ def cancel_booking(request, booking_id, seat_number):
     except Seat.DoesNotExist:
         raise Http404("Seat not found")
 
+@login_required
+def transfer_seat(request, booking_id, seat_number):
+    if request.method == 'POST':
+        recipient_email = request.POST.get('recipient_email')
+
+        # Validate recipient
+        recipient = get_object_or_404(User, email=recipient_email)
+        booking = get_object_or_404(Booking, id=booking_id)
+
+        # Ensure the seat exists in this booking
+        seats = booking.seats_numbers.split(',')
+        if seat_number not in seats:
+            messages.error(request, "Selected seat is not part of this booking.")
+            return redirect('booked_seats')
+
+        # Remove the seat from the original booking
+        seats.remove(seat_number)
+        if seats:
+            booking.seats_numbers = ','.join(seats)
+            booking.save()
+        else:
+            # If no more seats remain, delete the booking
+            booking.delete()
+
+        # Create or update a new booking for the recipient
+        new_booking, created = Booking.objects.get_or_create(
+            user=recipient, movie=booking.movie, showtime=booking.showtime
+        )
+
+        # Append the transferred seat to the recipient's booking
+        if new_booking.seats_numbers:
+            new_seats = new_booking.seats_numbers.split(',')
+            new_seats.append(seat_number)
+            new_booking.seats_numbers = ','.join(new_seats)
+        else:
+            new_booking.seats_numbers = seat_number
+        new_booking.save()
+
+        # Mark the seat as taken by the new owner
+        seat = get_object_or_404(Seat, showtime=booking.showtime, number=seat_number)
+        seat.is_taken = True
+        seat.save()
+
+        # messages.success(request, f"Seat {seat_number} has been successfully transferred to {recipient_email}.")
+        return redirect('booked_seats')
+
+    return redirect('booked_seats')

@@ -43,8 +43,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .movie-title {
@@ -54,13 +54,18 @@
         }
 
         .seats {
-            margin-top: 10px;
             font-size: 16px;
             color: #bbb;
         }
 
+        .seat-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
         .seats span {
-            margin-right: 10px;
             padding: 5px;
             background-color: #007bff;
             color: white;
@@ -71,7 +76,31 @@
             background-color: red;
             border: none;
             color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .transfer-form {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .transfer-form input {
             padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #333;
+            color: white;
+        }
+
+        .transfer-button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 5px 10px;
             cursor: pointer;
             border-radius: 5px;
             font-size: 14px;
@@ -110,12 +139,22 @@
                             <strong>Seats:</strong>
                             {% if booking.seats_list %}
                                 {% for seat in booking.seats_list %}
-                                    <span>{{ seat }}</span>
-                                    <!-- Form for canceling a seat -->
-                                    <form action="{% url 'cancel_booking' booking.id seat %}" method="post" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="cancel-button">Cancel</button>
-                                    </form>
+                                    <div class="seat-container">
+                                        <span>{{ seat }}</span>
+
+                                        <!-- Cancel Seat Form -->
+                                        <form action="{% url 'cancel_booking' booking.id seat %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="cancel-button">Cancel</button>
+                                        </form>
+
+                                        <!-- Transfer Seat Form -->
+                                        <form action="{% url 'transfer_seat' booking.id seat %}" method="post" class="transfer-form">
+                                            {% csrf_token %}
+                                            <input type="email" name="recipient_email" placeholder="Enter email" required>
+                                            <button type="submit" class="transfer-button">Transfer</button>
+                                        </form>
+                                    </div>
                                 {% endfor %}
                             {% else %}
                                 <span>No seats booked</span>

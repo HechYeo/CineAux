@@ -20,5 +20,6 @@ urlpatterns = [
     path('booking_confirmation/', views.booking_confirmation, name='booking_confirmation'),
     path('booked_seats/', views.booked_seats, name='booked_seats'),
     path('cancel_booking/<int:booking_id>/<str:seat_number>/', views.cancel_booking, name='cancel_booking'),
+    path('transfer_seat/<int:booking_id>/<str:seat_number>/', views.transfer_seat, name='transfer_seat'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

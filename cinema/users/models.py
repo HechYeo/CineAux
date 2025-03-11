@@ -56,7 +56,7 @@ class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, default=1)
     showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)
-    seats_numbers = models.TextField(default=1)
+    seats_numbers = models.TextField(default="")
     booked_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the booking was made
 
     def __str__(self):
