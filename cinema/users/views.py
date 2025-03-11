@@ -13,7 +13,6 @@ from django.urls import reverse_lazy
 from .models import Movie, Showtime, Seat, Booking, User
 from django.http import HttpResponse
 from django.http import Http404
-from django.db import transaction
 
 def register(request):
     # If the user is already logged in, don't show the register page
