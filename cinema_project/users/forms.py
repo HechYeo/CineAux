@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from .models import User, Profile, Movie
+from .models import User, Profile, Movie, Review
 from django.core.validators import RegexValidator
 
 User = get_user_model()
@@ -61,3 +61,12 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+
+class ReviewForm(forms.ModelForm):
+    RATING_CHOICES = [(i, str(i)) for i in range(6)]  # Rating choices from 0 to 5
+
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select, required=True)
+    
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']

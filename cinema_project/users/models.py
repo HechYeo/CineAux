@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 
 class User(AbstractUser):
@@ -23,7 +25,13 @@ class Profile(models.Model):
     age = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.user.firstname} {self.user.lastname} - Profile"
+        return f"{self.user.first_name} {self.user.last_name} - Profile"
+
+class Genre(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
     
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -31,7 +39,8 @@ class Movie(models.Model):
     release_date = models.DateField()
     duration = models.IntegerField()  # Duration in minutes
     poster = models.ImageField(upload_to='movie_poster/', blank=True, null=True)
-    age_rating = models.CharField(max_length=10)  # For FSK rating
+    age_rating = models.CharField(max_length=10)
+    genres = models.ManyToManyField(Genre, related_name="movies", blank=True)
 
     def __str__(self):
         return self.title
@@ -39,6 +48,10 @@ class Movie(models.Model):
 class Showtime(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='showtimes')
     time = models.TimeField(null=True)  # Store time as a time object
+
+    @property
+    def available_seats(self):
+        return Seat.objects.filter(showtime=self, is_taken=False).count()
 
     def __str__(self):
         return f"{self.movie.title} - {self.time}"
@@ -61,5 +74,15 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.showtime.movie.title} at {self.showtime.time}"
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])  # 1 to 5 stars
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.movie.title} ({self.rating}/5)"
 
 

@@ -4,13 +4,11 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Movie, Showtime
-from .forms import MovieForm
+from .models import Movie, Showtime, Seat, Booking, User
+from .forms import UserRegistrationForm, ReviewForm, EditProfileForm
 from django.contrib.auth.decorators import login_required
-from .forms import EditProfileForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from .models import Movie, Showtime, Seat, Booking, User
 from django.http import HttpResponse
 from django.http import Http404
 
@@ -80,7 +78,10 @@ def movie_list(request):
 def movie_showtimes(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     showtimes = Showtime.objects.filter(movie=movie)
-    return render(request, 'users/movie_showtimes.html', {'movie': movie, 'showtimes': showtimes})
+    reviews = movie.reviews.all()
+    max_rating = 5
+    return render(request, 'users/movie_showtimes.html', {'movie': movie, 'showtimes': showtimes, 'reviews': reviews})
+
 
 @login_required
 def profile(request):
@@ -347,3 +348,25 @@ def transfer_seat(request, booking_id, seat_number):
         return redirect('booked_seats')
 
     return redirect('booked_seats')
+
+
+@login_required
+def add_review(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.movie = movie
+            review.save()
+            messages.success(request, "Review added successfully!")
+            return redirect('movie_showtimes', movie_id=movie.id)
+        else:
+            messages.error(request, "There was an error with your review.")
+    
+    else:
+        form = ReviewForm()
+    
+    return render(request, 'users/add_review.html', {'form': form, 'movie': movie})

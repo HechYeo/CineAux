@@ -1,5 +1,4 @@
 from django.urls import path
-from django.contrib.auth.views import LogoutView
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,5 +20,6 @@ urlpatterns = [
     path('booked_seats/', views.booked_seats, name='booked_seats'),
     path('cancel_booking/<int:booking_id>/<str:seat_number>/', views.cancel_booking, name='cancel_booking'),
     path('transfer_seat/<int:booking_id>/<str:seat_number>/', views.transfer_seat, name='transfer_seat'),
+    path('movie/<int:movie_id>/review/', views.add_review, name='add_review'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
