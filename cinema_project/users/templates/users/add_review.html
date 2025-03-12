@@ -99,17 +99,18 @@
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.rating }}
+                {{ form.rating }}  <!-- Ensure this is correctly rendered -->
             </div>
             <div class="form-group">
-                {{ form.comment }}
+                {{ form.comment }}  <!-- Ensure this is correctly rendered -->
             </div>
             <button type="submit" class="submit-btn">Submit Review</button>
-            <!-- Cancel Button -->
-            <a href="{% url 'movie_showtimes' movie.id %}">
-                <button type="button" class="cancel-btn">Cancel</button>
-            </a>
         </form>
+
+        <!-- Cancel Button (Link to the movie showtimes page) -->
+        <a href="{% url 'movie_showtimes' movie.id %}">
+            <button type="button" class="cancel-btn">Cancel</button>
+        </a>
     </div>
 
 </body>

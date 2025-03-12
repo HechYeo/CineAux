@@ -131,7 +131,7 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
-        
+
         .review-container .review-box .review-body {
             margin-top: 10px;
             font-size: 14px;
@@ -210,7 +210,7 @@
         <form method="POST" action="{% url 'add_review' movie.id %}" class="review-form">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="submit-btn">Submit Review</button>
+            <button type="submit" class="submit-btn">Create Review</button>
         </form>
 
         <!-- Reviews Display (First 5 Reviews) -->
@@ -222,8 +222,13 @@
                         <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
                         <span class="rating">({{ review.rating }}/5)</span>
                     </div>
+                    <!-- Display the review date directly below the name, aligned to the left -->
+                    <div class="review-date" style="text-align: left;">
+                        <small>Bewertet am {{ review.created_at|date:"d/m/Y" }}</small>
+                    </div>
                     <hr>
-                    <div class="review-text">
+                    <!-- Align the review text to the left -->
+                    <div class="review-text" style="text-align: left;">
                         <p>{{ review.comment }}</p>
                     </div>
                 </div>

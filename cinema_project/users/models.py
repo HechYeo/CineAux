@@ -78,7 +78,7 @@ class Booking(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
-    rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])  # 1 to 5 stars
+    rating = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])  # 1 to 5 stars
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

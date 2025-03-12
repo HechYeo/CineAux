@@ -361,12 +361,9 @@ def add_review(request, movie_id):
             review.user = request.user
             review.movie = movie
             review.save()
-            messages.success(request, "Review added successfully!")
             return redirect('movie_showtimes', movie_id=movie.id)
-        else:
-            messages.error(request, "There was an error with your review.")
-    
     else:
+        # Initialize an empty form for GET request
         form = ReviewForm()
-    
+
     return render(request, 'users/add_review.html', {'form': form, 'movie': movie})
