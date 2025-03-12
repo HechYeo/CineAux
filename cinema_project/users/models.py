@@ -28,10 +28,11 @@ class Profile(models.Model):
         return f"{self.user.first_name} {self.user.last_name} - Profile"
 
 class Genre(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
     
 class Movie(models.Model):
     title = models.CharField(max_length=255)
@@ -40,6 +41,7 @@ class Movie(models.Model):
     duration = models.IntegerField()  # Duration in minutes
     poster = models.ImageField(upload_to='movie_poster/', blank=True, null=True)
     age_rating = models.CharField(max_length=10)
+    youtube_trailer = models.URLField(blank=True, null=True)
     genres = models.ManyToManyField(Genre, related_name="movies", blank=True)
 
     def __str__(self):
@@ -84,5 +86,4 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.movie.title} ({self.rating}/5)"
-
 

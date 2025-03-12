@@ -11,6 +11,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.http import Http404
+from urllib.parse import urlparse, parse_qs
 
 def register(request):
     # If the user is already logged in, don't show the register page
@@ -80,7 +81,16 @@ def movie_showtimes(request, movie_id):
     showtimes = Showtime.objects.filter(movie=movie)
     reviews = movie.reviews.all()
     max_rating = 5
-    return render(request, 'users/movie_showtimes.html', {'movie': movie, 'showtimes': showtimes, 'reviews': reviews})
+    trailer_url = movie.youtube_trailer
+    video_id = None
+
+    # Extract video ID from YouTube URL
+    if 'youtube.com' in trailer_url:
+        parsed_url = urlparse(trailer_url)
+        video_id = parse_qs(parsed_url.query).get('v', [None])[0]
+        print(video_id)
+
+    return render(request, 'users/movie_showtimes.html', {'movie': movie, 'showtimes': showtimes, 'reviews': reviews, 'video_id': video_id})
 
 
 @login_required

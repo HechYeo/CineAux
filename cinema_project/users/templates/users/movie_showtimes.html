@@ -59,6 +59,7 @@
             font-size: 16px;
             color: #bbb;
             text-align: center;
+            margin-bottom: 15px;
         }
 
         .btn-back {
@@ -178,6 +179,11 @@
                 padding: 6px 12px;
             }
         }
+
+        .movie-trailer {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -189,6 +195,20 @@
 
         <div class="movie-info">
             <div class="movie-description">{{ movie.duration }} mins | FSK: {{ movie.age_rating }}</div>
+            <div class="movie-genres">
+                <strong>
+                    Genres: 
+                    {% with genres=movie.genres.all %}
+                        {% with sorted_genres=genres|dictsort:"name" %}
+                            {% for genre in sorted_genres %}
+                                {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No genres available for this movie.
+                            {% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </strong>
+            </div>
             <div class="movie-description">
                 <p>{{ movie.description }}</p>
             </div>
@@ -203,6 +223,15 @@
                     <p>No showtimes available at the moment.</p>
                 {% endfor %}
             </div>
+        </div>
+
+        <div class="movie-trailer">
+            {% if movie.youtube_trailer %}
+                <h3>Watch the Trailer:</h3>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+            {% else %}
+                <p>No trailer available.</p>
+            {% endif %}
         </div>
 
         <!-- Review Form -->

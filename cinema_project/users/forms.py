@@ -44,8 +44,6 @@ class UserRegistrationForm(forms.ModelForm):
         return user
 
 
-
-
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -54,7 +52,7 @@ class ProfileForm(forms.ModelForm):
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ['title', 'description', 'release_date', 'duration', 'poster', 'age_rating']
+        fields = ['title', 'description', 'duration', 'age_rating', 'poster', 'youtube_trailer']
 
 
 class EditProfileForm(forms.ModelForm):
