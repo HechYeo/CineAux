@@ -1,16 +1,21 @@
-# FitnessApp
-Fitness App für WPF Python
+# KinoApp
+Kino App für WPF Agile Webanwendung Python
 
+Um die benötigten Bibliotheken zu verwenden:
+- cd Cinema
+- pip install -r requirements.txt
 
 zum Starten der venv:
-- cd Cinema/cinema
+- cd Cinema/cinema_project
 - .\venv\Scripts\Activate
 
 To migrate:
+- Navigiere zum Ordner cinema_project (cd cinema_project)
 - python manage.py makemigrations
 python manage.py migrate
 
 anschließend Server starten:
+- Navigiere zum Ordner cinema_project (cd cinema_project)
 - python manage.py runserver
 
 Anschließend URL öffnen:
