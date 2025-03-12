@@ -185,6 +185,24 @@
             color: white;
             margin-top: 1em;
         }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            visibility: hidden; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
         
 
     </style>
@@ -486,36 +504,55 @@
         <a href="{% url 'movie_showtimes' movie.id %}" class="btn-cancel">Cancel</a>
         <!-- Proceed to Booking Button with data attributes for movie and showtime IDs -->
     </div>
-
+    
+    <!-- Toast Notification HTML -->
+    <div id="toast" class="toast">
+        <p id="toastMessage"></p>
+    </div>
 
     <script>
-        // Limit the number of seats to be selected to 3
+        // Show Toast function
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+            toastMessage.textContent = message;
+    
+            if (isError) {
+                toast.style.backgroundColor = "#dc3545"; // Red for error
+            } else {
+                toast.style.backgroundColor = "#28a745"; // Green for success
+            }
+    
+            toast.classList.add("show");
+    
+            // Hide the toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+    
+        // Modify the existing seat selection logic to use toast
         const maxSelection = 3;
         const seats = document.querySelectorAll('.seat');
-        
         seats.forEach(seat => {
             seat.addEventListener('click', () => {
-                // Don't allow selection of booked seats
                 if (seat.classList.contains('booked')) {
-                    return; // Do nothing if the seat is booked
+                    return;
                 }
     
-                // Toggle the selected class
                 if (seat.classList.contains('selected')) {
                     seat.classList.remove('selected');
                 } else {
-                    // Check if the maximum selection has been reached
                     const selectedSeats = document.querySelectorAll('.seat.selected');
                     if (selectedSeats.length < maxSelection) {
                         seat.classList.add('selected');
                     } else {
-                        alert(`You can only select up to ${maxSelection} seats.`);
+                        showToast(`You can only select up to ${maxSelection} seats.`, true);
                     }
                 }
             });
         });
     
-        // When clicking "Proceed to Book Seats", gather selected seat labels and redirect
         const proceedBtn = document.querySelector('.btn-proceed');
         proceedBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -526,7 +563,7 @@
             });
     
             if (selectedSeats.length === 0) {
-                alert("Please select at least one seat.");
+                showToast("Please select at least one seat.", true);
                 return;
             }
     

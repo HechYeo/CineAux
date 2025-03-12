@@ -48,7 +48,7 @@ def login_view(request):
     return render(request, 'users/login.html')
 
 
-
+@login_required
 def dashboard(request):
     movies = Movie.objects.all()  # Get all movies
     return render(request, 'users/dashboard.html', {'movies': movies})
@@ -62,13 +62,21 @@ def logout_view(request):
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
+    
+    # Add JavaScript to reload the page
+    response.content = response.content.replace(
+        b'</body>', 
+        b'<script type="text/javascript">window.location.reload();</script></body>'
+    )
+    
     return response
 
-
+@login_required
 def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'users/movie_list.html', {'movies': movies})
 
+@login_required
 def movie_showtimes(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     showtimes = Showtime.objects.filter(movie=movie)
@@ -80,34 +88,34 @@ def profile(request):
     user = request.user
     return render(request, 'users/profile.html', {'user': user})
 
-def add_movie(request):
-    if request.method == 'POST':
-        form = MovieForm(request.POST, request.FILES)  # Handle file upload
-        if form.is_valid():
-            form.save()
-            return redirect('users/dashboard')  # Redirect to dashboard or movie list
-    else:
-        form = MovieForm()
-    
-    return render(request, 'users/add_movie.html', {'form': form})
 
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('profile')  # Redirect back to the profile page
+            form.save() 
+            return redirect('profile') 
+        else:
+            messages.error(request, "There was an error updating your profile.") 
     else:
         form = EditProfileForm(instance=request.user)
 
     return render(request, 'users/edit_profile.html', {'form': form})
 
 class CustomPasswordChangeView(PasswordChangeView):
-    template_name = 'users/change_password.html'  # Path to your template
-    success_url = reverse_lazy('profile')  # Redirect to the profile page after successful password change
+    template_name = 'users/change_password.html'
+    success_url = reverse_lazy('profile') 
 
+    def form_valid(self, form):
+        messages.success(self.request, "Password changed successfully!")
+        return super().form_valid(form)
 
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error changing your password.") 
+        return super().form_invalid(form)
+
+@login_required
 def choose_seat(request, movie_id, showtime_id):
     # Get the showtime object from the database using the provided showtime_id
     showtime = get_object_or_404(Showtime, id=showtime_id)
@@ -210,7 +218,7 @@ def book_seats(request):
     })
 
 
-
+@login_required
 def booking_confirmation(request):
     if 'booking_complete' in request.session:
         # Remove session flag after confirmation page is visited
@@ -277,7 +285,8 @@ def cancel_booking(request, booking_id, seat_number):
         if not booking.seats_numbers:
             booking.delete()
 
-        # messages.success(request, f"Seat {seat_number} has been canceled successfully.")
+        # Success message for cancellation
+        messages.success(request, f"Seat {seat_number} has been canceled successfully.")
         return redirect('booked_seats')
 
     except Booking.DoesNotExist:
@@ -291,7 +300,12 @@ def transfer_seat(request, booking_id, seat_number):
         recipient_email = request.POST.get('recipient_email')
 
         # Validate recipient
-        recipient = get_object_or_404(User, email=recipient_email)
+        try:
+            recipient = User.objects.get(email=recipient_email)
+        except User.DoesNotExist:
+            messages.error(request, "No account found with that email address.")
+            return redirect('booked_seats')  # Redirect to the booked seats page
+
         booking = get_object_or_404(Booking, id=booking_id)
 
         # Ensure the seat exists in this booking
@@ -328,7 +342,8 @@ def transfer_seat(request, booking_id, seat_number):
         seat.is_taken = True
         seat.save()
 
-        # messages.success(request, f"Seat {seat_number} has been successfully transferred to {recipient_email}.")
+        # Success message (optional)
+        messages.success(request, f"Seat {seat_number} has been successfully transferred to {recipient_email}.")
         return redirect('booked_seats')
 
     return redirect('booked_seats')

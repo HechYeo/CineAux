@@ -123,6 +123,71 @@
         .btn-back:hover {
             background-color: rgba(0, 0, 0, 0.8);
         }
+
+        .toast {
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: none;
+            font-size: 16px;
+            animation: fadeIn 0.5s ease-out, fadeOut 0.5s ease-out 2.5s;
+            font-family: 'Arial', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: all 0.3s ease-out;
+        }
+
+        /* Add active animation for toast visibility */
+        .toast-active {
+            transform: translateY(0); /* To make it slide into view */
+            opacity: 1;
+        }
+
+        /* Add fade-out class for toast dismissal */
+        .toast-fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Success toast */
+        .toast-success {
+            background-color: rgba(40, 167, 69, 0.9); /* Green background for success */
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1.5px;
+        }
+
+        /* Error toast */
+        .toast-error {
+            background-color: rgba(220, 53, 69, 0.9); /* Red background for errors */
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1.5px;
+        }
+
+        /* Toast container */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -167,5 +232,39 @@
             <p>You have no booked tickets.</p>
         {% endif %}
     </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast {% if message.tags == 'success' %}toast-success{% else %}toast-error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <script>
+        // Show toast notifications
+        const toastContainer = document.getElementById("toast-container");
+        const toasts = toastContainer.getElementsByClassName("toast");
+    
+        // Display each toast for 3 seconds, then fade out
+        for (let toast of toasts) {
+            toast.style.display = 'block';  // Make toast visible
+            toast.classList.add("toast-active"); // Add animation class to the toast
+    
+            // Hide toast after 3 seconds
+            setTimeout(function() {
+                toast.classList.remove("toast-active");
+                toast.classList.add("toast-fade-out");
+            }, 3000);  // Toast stays for 3 seconds
+    
+            // Remove the toast from DOM after the fade-out animation is completed
+            setTimeout(function() {
+                toast.remove();
+            }, 3500);  // Time to ensure fade-out finishes
+        }
+    </script>
 </body>
 </html>
