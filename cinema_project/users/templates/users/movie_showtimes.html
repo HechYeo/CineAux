@@ -212,7 +212,7 @@
             <div class="movie-description">
                 <p>{{ movie.description }}</p>
             </div>
-            <p>Showtimes:</p>
+            <h3>Showtimes:</h3>
 
             <div class="showtimes-container">
                 {% for showtime in movie.showtimes.all %}
@@ -251,9 +251,9 @@
                         <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
                         <span class="rating">({{ review.rating }}/5)</span>
                     </div>
-                    <!-- Display the review date directly below the name, aligned to the left -->
+                    
                     <div class="review-date" style="text-align: left;">
-                        <small>Bewertet am {{ review.created_at|date:"d/m/Y" }}</small>
+                        <small>Reviewed on {{ review.created_at|date:"d. F Y" }}</small>
                     </div>
                     <hr>
                     <!-- Align the review text to the left -->
