@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>All Movies</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,14 +18,13 @@
             background-color: #111;
             padding: 40px;
             margin: 40px auto;
-            width: 100%;
-            max-width: 900px;
+            width: 90%;
+            max-width: 1200px;
             border-radius: 8px;
             position: relative;
             animation: flare 1.5s infinite alternate;
         }
 
-        /* Flare effect animation */
         @keyframes flare {
             0% {
                 box-shadow: 0 0 10px rgba(0, 123, 255, 0.5), 0 0 50px rgba(0, 123, 255, 0.3), 0 0 100px rgba(0, 123, 255, 0.2);
@@ -36,34 +36,10 @@
 
         h2 {
             text-align: center;
-            color: #fff;
             font-size: 36px;
             font-weight: bold;
             margin-bottom: 20px;
             letter-spacing: 2px;
-        }
-
-        .dashboard-content {
-            margin-top: 30px;
-            font-size: 18px;
-            color: #ccc;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .dashboard-content p {
-            font-size: 20px;
-            color: #fff;
-            font-weight: lighter;
-            margin-bottom: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .dashboard-content span {
-            color: #007bff;
-            font-weight: bold;
         }
 
         .movie-list-container {
@@ -71,20 +47,11 @@
             text-align: center;
         }
 
-        .movie-list-container h3 {
-            font-size: 24px;
-            color: #fff;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
         .movie-list {
             margin-top: 10px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
-            padding-left: 80px;
             list-style: none;
             justify-content: center;
         }
@@ -146,9 +113,11 @@
 
         .movie-title {
             font-size: 18px;
+            max-width: 70%;
             font-weight: bold;
             color: #fff;
             margin-bottom: 5px;
+            white-space: normal;
         }
 
         .movie-description {
@@ -156,97 +125,113 @@
             color: #bbb;
         }
 
-        .profile-container {
+        .btn-back {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            text-align: right;
-        }
-
-        .profile-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            display: inline-block;
-            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-button:hover {
-            background-color: #0056b3; /* Darker blue */
-            transform: scale(1.1); /* Slightly enlarge the button */
-            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7); /* Glowing effect */
-        }
-
-        .profile-menu {
-            display: none;
-            background-color: #222;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-width: 150px;
-            position: absolute;
-            top: 50px;
-            right: 0;
-        }
-
-        .profile-menu a {
-            display: block;
-            padding: 10px;
+            top: 15px;
+            left: 15px;
+            font-size: 24px;
             color: white;
             text-decoration: none;
+            cursor: pointer;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .filter-btn {
+            display: inline-block;
+            margin: 20px auto;
+            width: auto;
+            background-color: #007bff;
+            color: white;
             text-align: center;
-            transition: background 0.3s;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 16px;
+            padding: 8px 16px;
+            transition: background-color 0.3s ease;
         }
 
-        .profile-menu a:hover {
-            background-color: #333;
+        .filter-btn:hover {
+            background-color: #0056b3;
         }
 
-        .profile-container:focus-within .profile-menu,
-        .profile-button:focus + .profile-menu {
+        .filter-btn span {
+            margin-right: 8px;
+        }
+
+        /* Fixed positioning for the sort options */
+        .sort-options {
+            position: fixed;
+            top: 80px; /* Adjust this based on your layout */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #222;
+            width: 200px;
+            padding: 20px;
+            display: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 999; /* Ensure it's above other elements */
+        }
+
+        .sort-options a {
             display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
 
-        .view-all-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-            margin-bottom: 40px;
+        .sort-options a:hover {
+            background-color: #007bff;
         }
-        .view-all-container a {
-            text-decoration: none; /* Removes underline */
+
+        .sort-options.show {
+            display: block;
+            animation: slideIn 0.3s ease-in-out;
         }
-        
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+
     <div class="dashboard-container">
-        <div class="profile-container" tabindex="0">
-            <button class="profile-button">My CineAux</button>
-            <div class="profile-menu">
-                <a href="{% url 'profile' %}">See Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
-                <a href="{% url 'booked_seats' %}">Booked Tickets</a>
-            </div>
+        <a href="{% url 'dashboard' %}" class="btn-back">&#8592;</a>
+        <h2>All Movies</h2>
+
+        <!-- Filter button positioned between the title and movie list -->
+        <div class="filter-btn" id="filter-btn"><span>Filter</span> &#9776;</div>
+
+        <!-- Sort options (hidden initially) -->
+        <div class="sort-options" id="sort-options">
+            <a href="?sort=title">Sort by Title (A-Z)</a>
+            <a href="?sort=-title">Sort by Title (Z-A)</a>
         </div>
 
-        <h2>Welcome to CineAux!</h2>
-        
-        <div class="dashboard-content">
-            <p>Where every seat is the <span>best seat</span> in the house.<br>
-            Explore the latest blockbusters, discover hidden gems, and book your next movie night with ease.<br>
-            From action-packed thrillers to heartwarming dramas, your cinematic experience begins here.<br>
-            Grab your tickets, sit back, and enjoy the show!</p>
-        </div>
-
+        <!-- Movie List -->
         <div class="movie-list-container">
-            <h3>Top Movies this month:</h3>
             <ul class="movie-list">
-                {% for movie in movies|slice:":3" %}
+                {% for movie in movies %}
                     <li class="movie-item">
                         <a href="{% url 'movie_showtimes' movie.id %}">
                             {% if movie.poster %}
@@ -263,12 +248,26 @@
                 {% endfor %}
             </ul>
         </div>
-        
-        <!-- Add a button to navigate to the full movie list -->
-        <div class="view-all-container">
-            <a href="{% url 'all_movies' %}" class="profile-button">View All Movies</a>
-        </div>
-
     </div>
+
+    <script>
+        // Toggle sort options visibility on filter button click
+        document.getElementById('filter-btn').addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent the click event from propagating to document
+            var sortOptions = document.getElementById('sort-options');
+            sortOptions.classList.toggle('show');
+        });
+
+        // Close the filter options if clicking outside of it
+        document.addEventListener('click', function(event) {
+            var sortOptions = document.getElementById('sort-options');
+            var filterButton = document.getElementById('filter-btn');
+            // Close options if click is outside the filter button or the options
+            if (!filterButton.contains(event.target) && !sortOptions.contains(event.target)) {
+                sortOptions.classList.remove('show');
+            }
+        });
+    </script>
+
 </body>
 </html>

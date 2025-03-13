@@ -377,3 +377,18 @@ def add_review(request, movie_id):
         form = ReviewForm()
 
     return render(request, 'users/add_review.html', {'form': form, 'movie': movie})
+
+@login_required
+def all_movies(request):
+    movies = Movie.objects.all()
+
+    # Check if the user has selected a sort option
+    sort_order = request.GET.get('sort', None)
+
+    # Sort movies if a sort option is selected
+    if sort_order == '-title':
+        movies = movies.order_by('-title')
+    elif sort_order == 'title':
+        movies = movies.order_by('title')
+
+    return render(request, 'users/all_movies.html', {'movies': movies})
