@@ -22,5 +22,6 @@ urlpatterns = [
     path('transfer_seat/<int:booking_id>/<str:seat_number>/', views.transfer_seat, name='transfer_seat'),
     path('movie/<int:movie_id>/review/', views.add_review, name='add_review'),
     path('all_movies/', views.all_movies, name='all_movies'),
+    path('movie/<int:movie_id>/reviews/', views.movie_reviews, name='movie_reviews'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

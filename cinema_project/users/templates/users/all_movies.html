@@ -211,6 +211,27 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+
+        /* Hidden by default, shown when filters are active */
+        .clear-filters {
+            display: none;
+            background-color: #e74c3c; /* Red color */
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-filters:hover {
+            background-color: #c0392b;
+        }
+
+        .clear-filters.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -226,6 +247,10 @@
         <div class="sort-options" id="sort-options">
             <a href="?sort=title">Sort by Title (A-Z)</a>
             <a href="?sort=-title">Sort by Title (Z-A)</a>
+            <!-- Clear filters button (initially hidden) -->
+            <div class="clear-filters" id="clear-filters">
+                Clear Filters
+            </div>
         </div>
 
         <!-- Movie List -->
@@ -255,17 +280,27 @@
         document.getElementById('filter-btn').addEventListener('click', function(event) {
             event.stopPropagation(); // Prevent the click event from propagating to document
             var sortOptions = document.getElementById('sort-options');
+            var clearFilters = document.getElementById('clear-filters');
             sortOptions.classList.toggle('show');
+            clearFilters.classList.toggle('show');
         });
 
-        // Close the filter options if clicking outside of it
+        // Close the filter options and clear filters if clicking outside of them
         document.addEventListener('click', function(event) {
             var sortOptions = document.getElementById('sort-options');
             var filterButton = document.getElementById('filter-btn');
+            var clearFilters = document.getElementById('clear-filters');
             // Close options if click is outside the filter button or the options
             if (!filterButton.contains(event.target) && !sortOptions.contains(event.target)) {
                 sortOptions.classList.remove('show');
+                clearFilters.classList.remove('show');
             }
+        });
+
+        // Add functionality for clearing filters
+        document.getElementById('clear-filters').addEventListener('click', function() {
+            // Logic to clear filters (you can modify this as per your requirements)
+            window.location.href = window.location.pathname;  // Reload the page with no filters
         });
     </script>
 

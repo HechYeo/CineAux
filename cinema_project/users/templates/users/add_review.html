@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,6 +61,29 @@
             width: 95%;
         }
 
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            font-size: 40px; /* Increased font size for bigger stars */
+            text-align: center; /* Center the stars horizontally */
+            margin: 0 auto; /* Center the container itself */
+            display: block; /* Ensures it's treated as a block element */
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 40px; /* Increase the size of the stars */
+        }
+
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #ffb300; /* Yellow color for selected stars */
+        }
+
         .submit-btn,
         .cancel-btn {
             width: 100%;
@@ -99,7 +123,18 @@
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.rating }}  <!-- Ensure this is correctly rendered -->
+                <div class="star-rating">
+                    <input type="radio" name="rating" id="star5" value="5" />
+                    <label for="star5">&#9733;</label>
+                    <input type="radio" name="rating" id="star4" value="4" />
+                    <label for="star4">&#9733;</label>
+                    <input type="radio" name="rating" id="star3" value="3" />
+                    <label for="star3">&#9733;</label>
+                    <input type="radio" name="rating" id="star2" value="2" />
+                    <label for="star2">&#9733;</label>
+                    <input type="radio" name="rating" id="star1" value="1" />
+                    <label for="star1">&#9733;</label>
+                </div>
             </div>
             <div class="form-group">
                 {{ form.comment }}  <!-- Ensure this is correctly rendered -->

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>{{ movie.title }} Showtimes</title>
     <style>
         html, body {
@@ -102,6 +103,7 @@
 
         .showtime-btn:hover {
             background-color: #0056b3;
+            margin-top: 20px
         }
 
         .review-form {
@@ -245,11 +247,20 @@
         <!-- Reviews Display (First 5 Reviews) -->
         <h3>Reviews:</h3>
         <div class="review-container">
-            {% for review in movie.reviews.all|slice:":5" %}
+            {% for review in movie.reviews.all %}
                 <div class="review-box">
                     <div class="review-header">
                         <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
-                        <span class="rating">({{ review.rating }}/5)</span>
+                        <span class="rating">
+                            <!-- Render 5 stars and turn them yellow based on the rating -->
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i class="fa fa-star" style="color: #ffb300;"></i> <!-- Yellow star -->
+                                {% else %}
+                                    <i class="fa fa-star" style="color: #ccc;"></i> <!-- White star (gray) -->
+                                {% endif %}
+                            {% endfor %}
+                        </span>
                     </div>
                     
                     <div class="review-date" style="text-align: left;">
@@ -264,6 +275,10 @@
             {% empty %}
                 <p>No reviews yet. Be the first to review this movie!</p>
             {% endfor %}
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="{% url 'movie_reviews' movie.id %}" class="showtime-btn">See All Reviews</a>
         </div>
 </body>
 </html>

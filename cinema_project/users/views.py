@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.http import Http404
 from urllib.parse import urlparse, parse_qs
+from django.core.paginator import Paginator
 
 def register(request):
     # If the user is already logged in, don't show the register page
@@ -392,3 +393,17 @@ def all_movies(request):
         movies = movies.order_by('title')
 
     return render(request, 'users/all_movies.html', {'movies': movies})
+
+@login_required
+def movie_reviews(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    reviews_list = movie.reviews.all().order_by('-created_at')  # Latest reviews first
+    paginator = Paginator(reviews_list, 8)  # Show 8 reviews per page
+
+    page_number = request.GET.get('page')  # Get the page number from the URL
+    page_reviews = paginator.get_page(page_number)
+
+    return render(request, 'users/movie_reviews.html', {
+        'movie': movie,
+        'reviews': page_reviews
+    })
