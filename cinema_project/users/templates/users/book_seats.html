@@ -125,6 +125,22 @@
             <button type="submit" class="btn-cancel">Cancel</button>
         </form>
     </div>
-
+    <script>
+        // Replace the initial state to block back navigation from the book_seats page
+        history.replaceState(null, document.title, location.href);
+    
+        window.addEventListener('popstate', function(event) {
+            // If the user tries to go back, redirect to the booking_confirmation page
+            history.replaceState(null, document.title, location.href); // Replace state to block back navigation
+            location.replace('/booking_confirmation'); // Redirect to booking_confirmation
+        });
+    
+        // Prevent any forward navigation as well
+        setInterval(function() {
+            history.replaceState(null, document.title, location.href);
+            window.history.go(1); // Force forward navigation
+        }, 100);
+    </script>
+    
 </body>
 </html>

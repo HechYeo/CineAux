@@ -87,6 +87,24 @@
       <button type="submit" class="btn-dashboard">Back to Dashboard</button>
     </form>
   </div>
+  
+  <script>
+    // Replace the initial state to block back navigation
+    history.replaceState(null, document.title, location.href);
+
+    window.addEventListener('popstate', function(event) {
+        // When the user tries to go back, immediately redirect to the dashboard
+        history.replaceState(null, document.title, location.href); // Replace the state to block going back
+        location.replace('/dashboard'); // Redirect to the dashboard
+    });
+
+    // Prevent any forward navigation as well
+    setInterval(function() {
+        history.replaceState(null, document.title, location.href); // Continuously replace the state
+        window.history.go(1); // Force forward navigation, preventing backward navigation
+    }, 100);
+</script>
+
 
 </body>
 </html>
