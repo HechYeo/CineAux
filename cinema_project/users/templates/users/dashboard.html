@@ -208,6 +208,16 @@
             background-color: #333;
         }
 
+        .profile-menu a.logout {
+            background-color: #e60000; /* Red background */
+            color: white;
+        }
+
+        .profile-menu a.logout:hover {
+            background-color: #b52000; /* Darker red on hover */
+        }
+
+
         .profile-container:focus-within .profile-menu,
         .profile-button:focus + .profile-menu {
             display: block;
@@ -231,8 +241,9 @@
             <button class="profile-button">My CineAux</button>
             <div class="profile-menu">
                 <a href="{% url 'profile' %}">See Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
                 <a href="{% url 'booked_seats' %}">Booked Tickets</a>
+                <a href="{% url 'logout' %}" class="logout">Logout</a>
+
             </div>
         </div>
 

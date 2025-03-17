@@ -249,7 +249,7 @@ def booking_confirmation(request):
             'booked_seats': booked_seats,
         })
     
-    return redirect('users:dashboard')  # In case the session is not valid
+    return redirect('/dashboard')  # In case the session is not valid
 
 
 
