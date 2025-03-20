@@ -1,14 +1,16 @@
 # KinoApp
 Kino App für WPF Agile Webanwendung Python
 
-## requirements.txt installieren:
-- pip install -r requirements.txt
-
 ## Virtuelle Umgebung erstellen:
 - python -m venv venv
 
-### zum Starten der venv:
+## Starten der venv:
 - .\venv\Scripts\Activate
+
+## requirements.txt installieren:
+! Nach Starten der virtuellen Umgebung !
+- pip install -r requirements.txt
+
 
 ## anschließend Server starten:
 - python manage.py runserver
