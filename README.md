@@ -20,3 +20,10 @@ anschließend Server starten:
 
 Anschließend URL öffnen:
 http://127.0.0.1:8000/
+
+
+
+# requirements.txt:
+- cd cinema_project
+- .\venv\Scripts\Activate
+- pip freeze > requirements.txt
