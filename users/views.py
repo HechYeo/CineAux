@@ -25,7 +25,7 @@ def register(request):
             user = form.save()  # This will save the user with a hashed password
             return redirect('login')  # Redirect to login after successful registration
         else:
-            messages.error(request, "Invalid form data.")
+            messages.error(request, "Check your E-Mail or Password")
     else:
         form = UserRegistrationForm()
     
@@ -44,7 +44,7 @@ def login_view(request):
             login(request, user)  # Log in the user
             return redirect('dashboard')  # Redirect after successful login
         else:
-            messages.error(request, 'Invalid credentials')
+            messages.error(request, 'Check your E-Mail or Password')
     return render(request, 'users/login.html')
 
 

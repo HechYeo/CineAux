@@ -103,17 +103,17 @@
             
             <!-- Email input field with custom label -->
             <label for="email">E-Mail</label>
-            <input type="email" name="email" id="email" required placeholder="Geben Sie Ihre E-Mail ein" value="{{ request.POST.email }}">
+            <input type="email" name="email" id="email" required placeholder="Type in your E-Mail" value="{{ request.POST.email }}">
             
             <!-- Password input field with custom label -->
-            <label for="password">Passwort</label>
-            <input type="password" name="password" id="password" required placeholder="Geben Sie Ihr Passwort ein">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required placeholder="Type in your Password">
             
             <button type="submit" class="btn-submit">Login</button>
         </form>
 
         <div class="login-link">
-            <p>Haben Sie noch kein Konto? <a href="{% url 'register' %}">Jetzt registrieren</a></p>
+            <p>Don't have an Account? <a href="{% url 'register' %}">Register Now</a></p>
         </div>
     </div>
 

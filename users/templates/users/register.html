@@ -108,12 +108,12 @@
             
             <!-- Manually render each field with custom labels -->
             <div>
-                <label for="id_first_name">Vorname</label>
+                <label for="id_first_name">First Name</label>
                 {{ form.first_name }}
             </div>
 
             <div>
-                <label for="id_last_name">Nachname</label>
+                <label for="id_last_name">Last Name</label>
                 {{ form.last_name }}
             </div>
 
@@ -128,7 +128,7 @@
             </div>
 
             <div>
-                <label for="id_confirm_password">Passwort bestätigen</label>
+                <label for="id_confirm_password">Confirm Password</label>
                 {{ form.confirm_password }}
             </div>
 
@@ -136,7 +136,7 @@
         </form>
 
         <div class="login-link">
-            <p>Haben Sie bereits ein Konto? <a href="{% url 'login' %}">Login</a></p>
+            <p>Already have an Account? <a href="{% url 'login' %}">Login</a></p>
         </div>
     </div>
 
