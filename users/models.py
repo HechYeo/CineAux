@@ -19,14 +19,6 @@ class User(AbstractUser):
 
 
 
-    
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    age = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name} - Profile"
-
 class Genre(models.Model):
     name = models.CharField(max_length=100)
 

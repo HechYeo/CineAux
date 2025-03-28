@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from .models import User, Profile, Movie, Review
+from .models import User, Movie, Review
 from django.core.validators import RegexValidator
 
 User = get_user_model()
@@ -20,13 +20,6 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'password', 'confirm_password']
-        labels = {
-            'first_name': 'Vorname',  # Change First Name to Vorname
-            'last_name': 'Nachname',   # Change Last Name to Nachname
-            'password': 'Password',    # Keep Password in English (can change if needed)
-            'confirm_password': 'Passwort bestätigen',  # Change Confirm Password to Passwort bestätigen
-            'email': 'E-Mail'          # Change Email to E-Mail
-        }
 
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
@@ -43,11 +36,6 @@ class UserRegistrationForm(forms.ModelForm):
             user.save()
         return user
 
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['age']
 
 class MovieForm(forms.ModelForm):
     class Meta:

@@ -247,30 +247,30 @@
         <h3>Reviews:</h3>
         <div class="review-container">
             {% for review in movie.reviews.all %}
-                <div class="review-box">
-                    <div class="review-header">
-                        <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
-                        <span class="rating">
-                            <!-- Render 5 stars and turn them yellow based on the rating -->
-                            {% for i in "12345"|make_list %}
-                                {% if forloop.counter <= review.rating %}
-                                    <i class="fa fa-star" style="color: #ffb300;"></i> <!-- Yellow star -->
-                                {% else %}
-                                    <i class="fa fa-star" style="color: #ccc;"></i> <!-- White star (gray) -->
-                                {% endif %}
-                            {% endfor %}
-                        </span>
+                {% if forloop.counter <= 5 %}
+                    <div class="review-box">
+                        <div class="review-header">
+                            <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
+                            <span class="rating">
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= review.rating %}
+                                        <i class="fa fa-star" style="color: #ffb300;"></i> <!-- Yellow star -->
+                                    {% else %}
+                                        <i class="fa fa-star" style="color: #ccc;"></i> <!-- White star (gray) -->
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+
+                        <div class="review-date" style="text-align: left;">
+                            <small>Reviewed on {{ review.created_at|date:"d. F Y" }}</small>
+                        </div>
+                        <hr>
+                        <div class="review-text" style="text-align: left;">
+                            <p>{{ review.comment }}</p>
+                        </div>
                     </div>
-                    
-                    <div class="review-date" style="text-align: left;">
-                        <small>Reviewed on {{ review.created_at|date:"d. F Y" }}</small>
-                    </div>
-                    <hr>
-                    <!-- Align the review text to the left -->
-                    <div class="review-text" style="text-align: left;">
-                        <p>{{ review.comment }}</p>
-                    </div>
-                </div>
+                {% endif %}
             {% empty %}
                 <p>No reviews yet. Be the first to review this movie!</p>
             {% endfor %}
