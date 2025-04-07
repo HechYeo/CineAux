@@ -140,5 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'users/movie_poster')
 
 
 # Session expiration settings
-SESSION_COOKIE_AGE = 1800  # Session timeout in seconds (30 minutes)
+
+# SESSION_COOKIE_AGE = 1800  # Session timeout in seconds (30 minutes)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire the session when the browser is closed

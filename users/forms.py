@@ -7,8 +7,8 @@ from django.core.validators import RegexValidator
 User = get_user_model()
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()  # Input field for email
-    password = forms.CharField(widget=forms.PasswordInput)  # Input field for password
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
 
 class UserRegistrationForm(forms.ModelForm):
