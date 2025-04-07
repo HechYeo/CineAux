@@ -23,7 +23,7 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()  # This will save the user with a hashed password
-            return redirect('login')  # Redirect to login after successful registration
+            return redirect('login')
         else:
             messages.error(request, "Check your E-Mail or Password")
     else:
@@ -34,7 +34,7 @@ def register(request):
 def login_view(request):
     # If the user is already logged in, don't show the login page
     if request.user.is_authenticated:
-        return redirect('dashboard')  # Redirect to dashboard if already logged in
+        return redirect('dashboard')
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -42,7 +42,7 @@ def login_view(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)  # Log in the user
-            return redirect('dashboard')  # Redirect after successful login
+            return redirect('dashboard')
         else:
             messages.error(request, 'Check your E-Mail or Password')
     return render(request, 'users/login.html')
@@ -146,15 +146,14 @@ def choose_seat(request, movie_id, showtime_id):
 
     # Populate the booked_seats list with the seat numbers from each booking
     for booking in booked_seats_queryset:
-        # Assuming 'seats_numbers' is a comma-separated string
         booked_seats.extend(booking.seats_numbers.split(','))
     
-    # Now, pass 'booked_seats' to the template along with the other context
+
     return render(request, 'users/choose_seat.html', {
         'showtime': showtime,
         'movie': movie,
         'seats': seats,
-        'booked_seats': booked_seats  # Pass the list of booked seat numbers to the template
+        'booked_seats': booked_seats
     })
 
 
@@ -214,9 +213,10 @@ def book_seats(request):
         request.session['booked_seats'] = [seat.number for seat in booked_seats]  # Store seat numbers, not objects
         request.session['booking_complete'] = True
 
+        # Debug for Testing
         print(f"Booking completed: {booking}")
         print(f"Booked seats: {request.session['booked_seats']}")
-        print("✅ Booking complete session set!")  # Debugging print
+        print("✅ Booking complete session set!")
 
         return redirect('booking_confirmation')
 
@@ -354,7 +354,7 @@ def transfer_seat(request, booking_id, seat_number):
         seat.is_taken = True
         seat.save()
 
-        # Success message (optional)
+        # Success message
         messages.success(request, f"Seat {seat_number} has been successfully transferred to {recipient_email}.")
         return redirect('booked_seats')
 
@@ -400,7 +400,7 @@ def movie_reviews(request, movie_id):
     reviews_list = movie.reviews.all().order_by('-created_at')  # Latest reviews first
     paginator = Paginator(reviews_list, 8)  # Show 8 reviews per page
 
-    page_number = request.GET.get('page')  # Get the page number from the URL
+    page_number = request.GET.get('page')  # Get the page number
     page_reviews = paginator.get_page(page_number)
 
     return render(request, 'users/movie_reviews.html', {

@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,7 +17,7 @@
         }
 
         .register-container {
-            background-color: #111; /* Dark container background */
+            background-color: #111;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@
 
         h2 {
             text-align: center;
-            color: #fff; /* White text for headings */
+            color: #fff;
             font-size: 28px;
             margin-bottom: 20px;
         }
@@ -36,24 +36,24 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #ccc; /* Light gray color for labels */
+            color: #ccc;
         }
 
         input {
             width: 94%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #444; /* Darker border */
+            border: 1px solid #444;
             border-radius: 5px;
             font-size: 16px;
-            background-color: #333; /* Dark background for input fields */
-            color: #fff; /* White text inside inputs */
+            background-color: #333;
+            color: #fff;
         }
 
         .btn-submit {
             width: 100%;
             padding: 12px;
-            background-color: #007BFF; /* Blueish color */
+            background-color: #007BFF;
             color: white;
             font-size: 16px;
             border: none;
@@ -62,7 +62,7 @@
         }
 
         .btn-submit:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
 
         .error-message {
@@ -81,7 +81,7 @@
         }
 
         .login-link a {
-            color: #007BFF; /* Blueish color for the link */
+            color: #007BFF;
             text-decoration: none;
         }
 
@@ -106,7 +106,6 @@
         <form method="POST">
             {% csrf_token %}
             
-            <!-- Manually render each field with custom labels -->
             <div>
                 <label for="id_first_name">First Name</label>
                 {{ form.first_name }}

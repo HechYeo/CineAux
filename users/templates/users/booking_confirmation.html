@@ -6,8 +6,8 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #000; /* Black background */
-      color: #fff; /* White text */
+      background-color: #000;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,7 +16,7 @@
     }
 
     .confirmation-container {
-      background-color: #111; /* Dark container background */
+      background-color: #111;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -26,7 +26,7 @@
 
     h1 {
       text-align: center;
-      color: #28a745; /* Green text for title */
+      color: #28a745;
       font-size: 28px;
       margin-bottom: 15px;
     }
@@ -50,8 +50,8 @@
 
     .btn-dashboard {
       width: 100%;
-      padding: 10px; /* Slightly reduced padding */
-      background-color: #007BFF; /* Red color */
+      padding: 10px;
+      background-color: #007BFF;
       color: white;
       font-size: 16px;
       border: none;
@@ -60,7 +60,7 @@
     }
 
     .btn-dashboard:hover {
-      background-color: #0056b3; /* Darker red on hover */
+      background-color: #0056b3;
     }
 
   </style>
@@ -98,7 +98,6 @@
         location.replace('/dashboard'); // Redirect to the dashboard
     });
 
-    // Prevent any forward navigation as well
     setInterval(function() {
         history.replaceState(null, document.title, location.href); // Continuously replace the state
         window.history.go(1); // Force forward navigation, preventing backward navigation

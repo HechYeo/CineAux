@@ -58,7 +58,7 @@
 
         .seat.selected {
             background-color: white;
-            color: black;  /* Change text color to black when selected */
+            color: black;
         }
 
         .seat.booked {
@@ -85,8 +85,8 @@
         }
         .modal-footer {
             display: flex;
-            justify-content: flex-end; /* Align buttons to the right */
-            gap: 10px; /* Space between the buttons */
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .btn-cancel {
@@ -107,7 +107,7 @@
         }
 
         .btn-proceed {
-            background-color: #28a745; /* Green */
+            background-color: #28a745;
             color: white;
             padding: 0.8em 1.5em;
             border-radius: 8px;
@@ -176,12 +176,12 @@
         }
 
         .arrow-left {
-            font-size: 2.5em; /* Smaller arrow size */
+            font-size: 2.5em;
             color: white;
         }
 
         .arrow-text {
-            font-size: 1.2em; /* Adjusted smaller text size */
+            font-size: 1.2em;
             color: white;
             margin-top: 1em;
         }
@@ -194,7 +194,7 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            visibility: hidden; /* Hidden by default */
+            visibility: hidden;
             opacity: 0;
             transition: opacity 0.5s, visibility 0.5s;
         }
@@ -328,8 +328,7 @@
             <div class="seat" style="visibility: hidden;"></div>
             <div class="seat" style="visibility: hidden;"></div>
         </div>
-        <!-- Row G-K - 17 seats with empty space after 15th seat -->
-        <!-- Each of these rows will have 15 seats followed by 3 empty divs to create the gap -->
+
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
             <div class="seat {% if 'H1' in booked_seats %}booked{% endif %}">H1</div>
             <div class="seat {% if 'H2' in booked_seats %}booked{% endif %}">H2</div>
@@ -374,6 +373,7 @@
             <div class="seat {% if 'G16' in booked_seats %}booked{% endif %}">G16</div>
             <div class="seat {% if 'G17' in booked_seats %}booked{% endif %}">G17</div>
         </div>
+
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
             <div class="seat {% if 'F1' in booked_seats %}booked{% endif %}">F1</div>
             <div class="seat {% if 'F2' in booked_seats %}booked{% endif %}">F2</div>
@@ -397,6 +397,7 @@
             <div class="seat {% if 'F16' in booked_seats %}booked{% endif %}">F16</div>
             <div class="seat {% if 'F17' in booked_seats %}booked{% endif %}">F17</div>
         </div>
+
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
             <div class="seat {% if 'E1' in booked_seats %}booked{% endif %}">E1</div>
             <div class="seat {% if 'E2' in booked_seats %}booked{% endif %}">E2</div>
@@ -420,7 +421,7 @@
             <div class="seat {% if 'E16' in booked_seats %}booked{% endif %}">E16</div>
             <div class="seat {% if 'E17' in booked_seats %}booked{% endif %}">E17</div>
         </div>
-        <!-- Rows D to G - 17 seats with empty spaces after 15th seat -->
+
         <div class="row" style="grid-template-columns: repeat(20, 1fr)">
             <div class="seat {% if 'D1' in booked_seats %}booked{% endif %}">D1</div>
             <div class="seat {% if 'D2' in booked_seats %}booked{% endif %}">D2</div>
@@ -445,7 +446,6 @@
             <div class="seat {% if 'D17' in booked_seats %}booked{% endif %}">D17</div>
         </div>
 
-            <!-- Row C - 11 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
             <div class="seat {% if 'C1' in booked_seats %}booked{% endif %}">C1</div>
             <div class="seat {% if 'C2' in booked_seats %}booked{% endif %}">C2</div>
@@ -461,7 +461,6 @@
             <div class="seat {% if 'C11' in booked_seats %}booked{% endif %}">C11</div>
         </div>
 
-        <!-- Row B - 8 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
             <div class="seat {% if 'B1' in booked_seats %}booked{% endif %}">B1</div>
             <div class="seat {% if 'B2' in booked_seats %}booked{% endif %}">B2</div>
@@ -477,7 +476,6 @@
             <div class="seat {% if 'B8' in booked_seats %}booked{% endif %}">B8</div>
         </div>
 
-        <!-- Row A - 2 seats -->
         <div class="row" style="grid-template-columns: repeat(12, 1fr)">
             <div class="seat {% if 'A1' in booked_seats %}booked{% endif %}">A1</div>
             <div class="seat {% if 'A2' in booked_seats %}booked{% endif %}">A2</div>
@@ -505,7 +503,7 @@
         <!-- Proceed to Booking Button with data attributes for movie and showtime IDs -->
     </div>
     
-    <!-- Toast Notification HTML -->
+    <!-- Toast Notification -->
     <div id="toast" class="toast">
         <p id="toastMessage"></p>
     </div>

@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Stars for Rating -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Your Booking</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,7 +19,7 @@
         }
 
         .confirmation-container {
-            background-color: #111; /* Dark container background */
+            background-color: #111;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -27,9 +29,9 @@
 
         h1 {
             text-align: center;
-            color: #28a745; /* Green text for title */
+            color: #28a745;
             font-size: 28px;
-            margin-bottom: 15px; /* Reduced margin */
+            margin-bottom: 15px;
         }
 
         h2 {
@@ -57,8 +59,8 @@
 
         .btn-confirm {
             width: 100%;
-            padding: 10px; /* Slightly reduced padding */
-            background-color: #007BFF; /* Blueish color */
+            padding: 10px;
+            background-color: #007BFF;
             color: white;
             font-size: 16px;
             border: none;
@@ -67,13 +69,13 @@
         }
 
         .btn-confirm:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
 
         .btn-cancel {
             width: 100%;
-            padding: 10px; /* Slightly reduced padding */
-            background-color: #FF4C4C; /* Red color */
+            padding: 10px;
+            background-color: #FF4C4C;
             margin-top: 14px;
             color: white;
             font-size: 16px;
@@ -83,14 +85,14 @@
         }
 
         .btn-cancel:hover {
-            background-color: #e03e3e; /* Darker red on hover */
+            background-color: #e03e3e;
         }
 
         .btn-back {
             margin-top: 10px;
             display: inline-block;
             text-align: center;
-            color: #007BFF; /* Blueish color for the link */
+            color: #007BFF;
             text-decoration: none;
         }
 
@@ -132,10 +134,9 @@
         window.addEventListener('popstate', function(event) {
             // If the user tries to go back, redirect to the booking_confirmation page
             history.replaceState(null, document.title, location.href); // Replace state to block back navigation
-            location.replace('/booking_confirmation'); // Redirect to booking_confirmation
+            location.replace('/booking_confirmation'); // Redirect to booking_confirmation page
         });
     
-        // Prevent any forward navigation as well
         setInterval(function() {
             history.replaceState(null, document.title, location.href);
             window.history.go(1); // Force forward navigation

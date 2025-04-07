@@ -165,10 +165,9 @@
             margin-right: 8px;
         }
 
-        /* Fixed positioning for the sort options */
         .sort-options {
             position: fixed;
-            top: 80px; /* Adjust this based on your layout */
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
             background-color: #222;
@@ -177,7 +176,7 @@
             display: none;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            z-index: 999; /* Ensure it's above other elements */
+            z-index: 999; 
         }
 
         .sort-options a {
@@ -212,10 +211,9 @@
             }
         }
 
-        /* Hidden by default, shown when filters are active */
         .clear-filters {
             display: none;
-            background-color: #e60000; /* Red color */
+            background-color: #e60000;
             color: white;
             padding: 10px;
             font-size: 16px;
@@ -240,14 +238,14 @@
         <a href="{% url 'dashboard' %}" class="btn-back">&#8592;</a>
         <h2>All Movies</h2>
 
-        <!-- Filter button positioned between the title and movie list -->
+        <!-- Filter button -->
         <div class="filter-btn" id="filter-btn"><span>Filter</span> &#9776;</div>
 
-        <!-- Sort options (hidden initially) -->
+        <!-- Sort options -->
         <div class="sort-options" id="sort-options">
             <a href="?sort=title">Sort by Title (A-Z)</a>
             <a href="?sort=-title">Sort by Title (Z-A)</a>
-            <!-- Clear filters button (initially hidden) -->
+            <!-- Clear filters button -->
             <div class="clear-filters" id="clear-filters">
                 Clear Filters
             </div>
@@ -299,7 +297,6 @@
 
         // Add functionality for clearing filters
         document.getElementById('clear-filters').addEventListener('click', function() {
-            // Logic to clear filters (you can modify this as per your requirements)
             window.location.href = window.location.pathname;  // Reload the page with no filters
         });
     </script>

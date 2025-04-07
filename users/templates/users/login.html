@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,7 +17,7 @@
         }
 
         .login-container {
-            background-color: #111; /* Dark container background */
+            background-color: #111;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -27,33 +27,33 @@
 
         h2 {
             text-align: center;
-            color: #fff; /* White text for headings */
+            color: #fff;
             font-size: 28px;
-            margin-bottom: 15px; /* Reduced margin */
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            margin-bottom: 6px; /* Reduced margin */
+            margin-bottom: 6px;
             font-weight: bold;
-            color: #ccc; /* Light gray color for labels */
+            color: #ccc;
         }
 
         input {
             width: 96%;
-            padding: 8px; /* Slightly reduced padding */
-            margin-bottom: 16px; /* Reduced margin */
-            border: 1px solid #444; /* Darker border */
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #444;
             border-radius: 5px;
-            font-size: 16px; /* Smaller font size */
-            background-color: #333; /* Dark background for input fields */
-            color: #fff; /* White text inside inputs */
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 10px; /* Slightly reduced padding */
-            background-color: #007BFF; /* Blueish color */
+            padding: 10px;
+            background-color: #007BFF;
             color: white;
             font-size: 16px;
             border: none;
@@ -62,12 +62,12 @@
         }
 
         .btn-submit:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
 
         .error-message {
             color: red;
-            margin-bottom: 12px; /* Reduced margin */
+            margin-bottom: 12px;
         }
 
         .login-link {
@@ -76,7 +76,7 @@
         }
 
         .login-link a {
-            color: #007BFF; /* Blueish color for the link */
+            color: #007BFF;
             text-decoration: none;
         }
 
@@ -101,11 +101,11 @@
         <form method="POST">
             {% csrf_token %}
             
-            <!-- Email input field with custom label -->
+            <!-- Email input field -->
             <label for="email">E-Mail</label>
             <input type="email" name="email" id="email" required placeholder="Type in your E-Mail" value="{{ request.POST.email }}">
             
-            <!-- Password input field with custom label -->
+            <!-- Password input field -->
             <label for="password">Password</label>
             <input type="password" name="password" id="password" required placeholder="Type in your Password">
             

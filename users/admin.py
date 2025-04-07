@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Movie, Showtime, User, Booking, Seat, Review, Genre
-# Register your models here.
-# Register your model with Django Admin
+
+# Admin Models
 admin.site.register(Movie)
 admin.site.register(Showtime)
 admin.site.register(User)
